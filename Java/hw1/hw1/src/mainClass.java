@@ -14,11 +14,14 @@ public class mainClass {
             System.out.println("Invalid Input!");
             return;
         }
-        
         System.out.println("Valid Input!");
         
+        Input = makeWhiteSpaces(Input);
+               
         String[] SetInputs = Input.split(" ");
-            
+        for(int i = 0; i < SetInputs.length ; i++)
+            System.out.println(SetInputs[i]);
+        
     }
     
     /*String ReadLine function
@@ -99,6 +102,7 @@ public class mainClass {
                 return false;
             }
             
+            
         }
             
        //Check if there is no-closed parenthesis
@@ -126,6 +130,30 @@ public class mainClass {
        else
            return false;
    }
+
+    private static String makeWhiteSpaces(String Input){
+        
+        StringBuffer StrBuf = new StringBuffer();
+        StrBuf.append(Input);
+                        
+        for(int i = 0; i < StrBuf.length()-1; i++){
+            if(Character.isDigit( StrBuf.charAt(i) ) ){
+                if(!Character.isDigit( StrBuf.charAt(i+1) ) ){
+                    StrBuf.insert(i+1, ' ');
+                }
+            }
+            else if( !Character.isWhitespace(StrBuf.charAt(i) ) ){
+                StrBuf.insert(i+1, ' ');
+            }
+            else //Char at i is whitespace
+                if( Character.isWhitespace(StrBuf.charAt(i+1) ) ){
+                        StrBuf.deleteCharAt(i--);
+                }
+        }
+
+        return StrBuf.toString();
+    }
+    
 }
 
 
