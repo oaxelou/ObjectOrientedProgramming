@@ -21,7 +21,10 @@ public class mainClass {
             
     }
     
-    //Method that gets the math expression from user
+    /*String ReadLine function
+    *Makes String the input till new line user gives
+    *Returns the string made
+    */
     private static String ReadLine() {
     java.util.Scanner sc = new java.util.Scanner(System.in);
     System.out.print("Enter math expression: ");
@@ -31,6 +34,18 @@ public class mainClass {
     return line;
   }
     
+       /*Boolean checkValidInput function
+    *Checks if Sting Input is Valid to make arithmetic operations
+    *Returns true if it is, else false
+    *
+    *Example:   String str = "1/3-(3+2)*8*2"
+    *           checkValidInput(str);
+    *           Returns true
+    *
+    *           String str = "1+3-(-3-+2+)a"
+    *           checkValidInput(str);
+    *           Returns false
+    */
    private static boolean checkValidInput(String Input){
        
        char tempChar;
@@ -42,18 +57,28 @@ public class mainClass {
             if(tempChar == '('){
                 if(isOperator( Input.charAt(i+1) ) )
                         return false;  //Example 8+(-0+3), (Numbers are Positives)
+                
+                if(i != 0 && Character.isDigit( Input.charAt(i-1) ) )
+                        return false;  //Example 0(9+9)
+                
+                //Add an opened parenthesis
                 parenthesisCounter++;
             }
             
             else if(tempChar == ')'){
-               /*Check if there is closing parenthesis symbol,
-                *without being opened
-                */ 
                if(isOperator( Input.charAt(i-1) ) )
                         return false;  //Example 8+(0+3+)*10
+               
+               if(i != Input.length() - 1 && Character.isDigit( Input.charAt(i+1) ) )
+                        return false;  //Example (9+9)0
+               
+               /*Check if there is closing parenthesis symbol,
+                *without being opened
+                */
                 if(parenthesisCounter == 0)
                     return false;
                 else 
+                    //Sub an opened parenthesis
                     parenthesisCounter--;
             }
             
@@ -69,21 +94,32 @@ public class mainClass {
                
             }
             
+            //If it is incompatible char
             else if( !Character.isDigit(tempChar) && !Character.isWhitespace(tempChar)){
                 return false;
             }
             
         }
             
-           
-          
-       //Not every parenthesis has been closed
+       //Check if there is no-closed parenthesis
        if(parenthesisCounter != 0)
            return false;
        
        return true;
    }
    
+   /*Boolean isOperator function
+    *Checks if given char is an operator (+,-,*,/,^)
+    *Returns true if it is, else false
+    *
+    *Example:   char a = '+';
+    *           isOperator(a);
+    *           Returns true
+    *
+    *           char a = '4';
+    *           isOperator(a);
+    *           Returns false
+    */
    private static boolean isOperator(char a){
        if(a == '/' || a == '*' || a == '+' || a == '-' || a == '^')
            return true;
