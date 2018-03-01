@@ -15,12 +15,14 @@ public class mainClass {
             return;
         }
         
+        System.out.println("Valid Input!");
+        
         String[] SetInputs = Input.split(" ");
             
     }
     
     //Method that gets the math expression from user
-    public static String ReadLine() {
+    private static String ReadLine() {
     java.util.Scanner sc = new java.util.Scanner(System.in);
     System.out.print("Enter math expression: ");
     String line = sc.nextLine();
@@ -29,7 +31,7 @@ public class mainClass {
     return line;
   }
     
-   public static boolean checkValidInput(String Input){
+   private static boolean checkValidInput(String Input){
        
        char tempChar;
        int parenthesisCounter = 0;
@@ -37,32 +39,57 @@ public class mainClass {
        for(int i = 0; i < Input.length() ; i++){
            tempChar = Input.charAt(i);
            
-           switch(tempChar){
-               
-               case('(') :
-                   parenthesisCounter++;
-                   break;
-                   
-                case(')'):
-                    /*Check if there is closing parenthesis symbol,
-                    *without being opened
-                    */ 
-                    if(parenthesisCounter == 0)
-                        return false;
-                    else 
-                        parenthesisCounter--;
-                    break;
-                    
-                case()
-                    
+            if(tempChar == '('){
+                if(isOperator( Input.charAt(i+1) ) )
+                        return false;  //Example 8+(-0+3), (Numbers are Positives)
+                parenthesisCounter++;
             }
-       }
+            
+            else if(tempChar == ')'){
+               /*Check if there is closing parenthesis symbol,
+                *without being opened
+                */ 
+               if(isOperator( Input.charAt(i-1) ) )
+                        return false;  //Example 8+(0+3+)*10
+                if(parenthesisCounter == 0)
+                    return false;
+                else 
+                    parenthesisCounter--;
+            }
+            
+            else if(isOperator(tempChar)){
+                
+                if(i == 0 || i == Input.length() - 1){
+                    return false;  // Example 4-2+ or -0+3 (Numbers are Positives)
+                }
+                else{
+                    if(isOperator( Input.charAt(i+1) ) )
+                    return false;  //Example 9++3, 5-2+-4
+                }
+               
+            }
+            
+            else if( !Character.isDigit(tempChar) && !Character.isWhitespace(tempChar)){
+                return false;
+            }
+            
+        }
+            
+           
+          
        //Not every parenthesis has been closed
        if(parenthesisCounter != 0)
            return false;
        
+       return true;
    }
-    
+   
+   private static boolean isOperator(char a){
+       if(a == '/' || a == '*' || a == '+' || a == '-' || a == '^')
+           return true;
+       else
+           return false;
+   }
 }
 
 
