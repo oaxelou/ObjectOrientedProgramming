@@ -14,7 +14,6 @@ public class mainClass {
             System.out.println("Invalid Input!");
             return;
         }
-        System.out.println("Valid Input!");
         
         Input = makeWhiteSpaces(Input);
                
@@ -37,7 +36,7 @@ public class mainClass {
     return line;
   }
     
-       /*Boolean checkValidInput function
+   /*Boolean checkValidInput function
     *Checks if Sting Input is Valid to make arithmetic operations
     *Returns true if it is, else false
     *
@@ -53,27 +52,54 @@ public class mainClass {
        
        char tempChar;
        int parenthesisCounter = 0;
+       int i,j;
        
-       for(int i = 0; i < Input.length() ; i++){
+       for(i = 0; i < Input.length() ; i++){
            tempChar = Input.charAt(i);
            
-            if(tempChar == '('){
+            if(tempChar == '.'){
+
+                if(i == 0 || i == Input.length() - 1){
+                    return false;
+                }
+
+                if(!Character.isDigit( Input.charAt(i-1) ) || !Character.isDigit( Input.charAt(i+1) )){
+                    return false;
+                }
+
+            }
+
+            else if(tempChar == '('){
+
                 if(isOperator( Input.charAt(i+1) ) )
                         return false;  //Example 8+(-0+3), (Numbers are Positives)
+                for(j = i+1; j < Input.length() && Character.isWhitespace(Input.charAt(j)); j++)
+                    if(isOperator( Input.charAt(j+1) ) )
+                        return false;  //Example 8+(  -0+3), (Numbers are Positives)
                 
                 if(i != 0 && Character.isDigit( Input.charAt(i-1) ) )
                         return false;  //Example 0(9+9)
+                for(j = i-1; j > 0 && Character.isWhitespace(Input.charAt(j)); j--)
+                    if(Character.isDigit( Input.charAt(j-1) ) )
+                        return false;  //Example 0  (9+9)
                 
                 //Add an opened parenthesis
                 parenthesisCounter++;
             }
             
             else if(tempChar == ')'){
-               if(isOperator( Input.charAt(i-1) ) )
+
+                if(isOperator( Input.charAt(i-1) ) )
                         return false;  //Example 8+(0+3+)*10
-               
-               if(i != Input.length() - 1 && Character.isDigit( Input.charAt(i+1) ) )
+                for(j = i-1; j > 0 && Character.isWhitespace(Input.charAt(j)); j--)
+                    if(isOperator( Input.charAt(j-1) ) )
+                        return false;  //Example 8+(0+3+  )*10
+                
+                if(i != Input.length() - 1 && Character.isDigit( Input.charAt(i+1) ) )
                         return false;  //Example (9+9)0
+                for(j = i+1; j < Input.length() && Character.isWhitespace(Input.charAt(j)); j++)
+                    if(Character.isDigit( Input.charAt(j+1) ) )
+                        return false;  //Example (9+9)  0
                
                /*Check if there is closing parenthesis symbol,
                 *without being opened
@@ -101,7 +127,6 @@ public class mainClass {
             else if( !Character.isDigit(tempChar) && !Character.isWhitespace(tempChar)){
                 return false;
             }
-            
             
         }
             
@@ -138,10 +163,11 @@ public class mainClass {
                         
         for(int i = 0; i < StrBuf.length()-1; i++){
             if(Character.isDigit( StrBuf.charAt(i) ) ){
-                if(!Character.isDigit( StrBuf.charAt(i+1) ) ){
+                if(!Character.isDigit( StrBuf.charAt(i+1) ) && (StrBuf.charAt(i+1) != '.') ){
                     StrBuf.insert(i+1, ' ');
                 }
             }
+            else if(StrBuf.charAt(i) == '.'){}
             else if( !Character.isWhitespace(StrBuf.charAt(i) ) ){
                 StrBuf.insert(i+1, ' ');
             }
