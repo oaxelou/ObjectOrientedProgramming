@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 
+
 /**
  *
  * @author oaxel
  */
 public class TreeNode {
     int type; // values: 0 OPERATOR, 1 NUMBER
-    int operatorValue; // enum.... klp operators klash
+    char operatorValue; // enum.... klp operators klash
     double numberValue;
     TreeNode left;
     TreeNode right;
@@ -18,7 +19,8 @@ public class TreeNode {
     public static final int OPERATOR = 0;
     public static final int NUMBER = 1;
     
-    TreeNode(int operatorValue){
+    TreeNode(char operatorValue){
+	//System.out.println("In char constructor");
         type = OPERATOR;
         this.operatorValue = operatorValue;
         right = null;
@@ -26,6 +28,7 @@ public class TreeNode {
     }
     
     TreeNode(double numberValue){
+	//System.out.println("In double constructor");
         type = NUMBER;
         this.numberValue = numberValue;
         right = null;
@@ -48,7 +51,7 @@ public class TreeNode {
         this.numberValue = numberValue;
     }
     
-    public void setType(int operatorValue){
+    public void setType(char operatorValue){
         type = OPERATOR;
         this.operatorValue = operatorValue;
     }
@@ -61,11 +64,27 @@ public class TreeNode {
         return left;
     }
     
-    public double getValue(){
+    public double getNumberValue(){
         if(type == NUMBER) 
             return numberValue;
         System.out.println("Not a number. Can not return value");
 //        java.lang.System.1exit(-1);
         return -1;        
     }
+	
+	// public String getOperator(){
+		// if(type == OPERATOR){
+			// return operatorValue;
+		// }
+	// }
+	
+	public String getStringValue(){
+        if(type == NUMBER) 
+            return ""+numberValue;
+        else{ // type == OPERATOR
+            return ""+operatorValue;
+	}      
+    }
+	
+	// methodo gia ta operators h klassh oloklhrh?!
 }

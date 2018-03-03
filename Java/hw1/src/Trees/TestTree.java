@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+
 /**
  *
  * @author oaxel
@@ -14,25 +15,14 @@ public class TestTree {
     public static void main(String[] args){
         Scanner scan = new Scanner(System.in);
         
-        Tree sampleTree = new Tree();
-        TreeNode current = sampleTree.root;
+        Tree sampleTree = new Tree(); //insertion with preorder
+        System.out.println("\nCreating a tree.\n********************************\nPRE-ORDER!");
+	sampleTree.insert();
+	//System.out.println("In Tree constructor: root value = " + sampleTree.root.numberValue);
+
+        System.out.println("The tree");
+        System.out.println(sampleTree.toString());
         
-        System.out.println("\nBinary Tree Operations:\n");
-        
-//        System.out.println("Operator or Number? (0 / 1): ");
-//        int nodeChoice = scan.nextInt();
-//        if(nodeChoice == 0){
-//            System.out.println("Enter integer element to instert:");
-//            sampleTree.insert(current, Tree.LEFT, 1);
-//        }
-//        else{
-//            System.out.println("Enter double element to insert:");
-//            sampleTree.insert(current, Tree.LEFT, scan.nextDouble());
-//        }
-        // tha mpei mia sunarthsh insert sto Tree.java
-        // H domh ths omws eksartatai apo to pws diaxeirizomaste ta strings
-        
-        
-        System.out.println(sampleTree.calculate()); 
+        System.out.println("The calculation: " + sampleTree.calculate()); 
     }
 }
