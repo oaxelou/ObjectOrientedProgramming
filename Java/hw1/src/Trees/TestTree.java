@@ -16,13 +16,15 @@ public class TestTree {
         Scanner scan = new Scanner(System.in);
         
         Tree sampleTree = new Tree(); //insertion with preorder
-        System.out.println("\nCreating a tree.\n********************************\nPRE-ORDER!");
-	sampleTree.insert();
-	//System.out.println("In Tree constructor: root value = " + sampleTree.root.numberValue);
+        sampleTree.insert();
+		
+        System.out.println("\n\n------- toDotString -------");
+		sampleTree.toDotString();
 
-        System.out.println("The tree");
+        System.out.println("\n\n-------- toString --------");
         System.out.println(sampleTree.toString());
         
-        System.out.println("The calculation: " + sampleTree.calculate()); 
+        System.out.println("\n\n-------- Calculate --------");
+        System.out.println(sampleTree.calculate());
     }
 }

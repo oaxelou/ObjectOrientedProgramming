@@ -10,6 +10,9 @@
  * @author oaxel
  */
 import java.util.Scanner;
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Tree {
     TreeNode root;
@@ -17,7 +20,7 @@ public class Tree {
     
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
-    
+    private static int nodeID = 0;
     public Tree(){
         //root = new TreeNode();
 		
@@ -208,4 +211,48 @@ public class Tree {
 	}
     
     // edw tha mpei h toDotString
+	public void toDotString(){
+		PrintWriter writer = null;
+		try{
+			writer = new PrintWriter("ArithmeticExpression.dot");
+			writer.println("digraph ArithmeticBullshitTree{");
+			writer.println("forntcolor=\"navy\"");
+			writer.println("fontsize=20;");
+			writer.println("labelloc=\"t\"");
+			writer.println("label=\"Arithmetic Expression\"");
+			//***************************
+			// preorder printing
+			preOrderPrintNodes(writer, root);
+			
+			//***************************
+			writer.println("}");
+		}catch(FileNotFoundException | SecurityException e){
+			e.printStackTrace();
+		}finally{
+			if(writer != null){
+				writer.close();
+			}
+			System.out.println(".dot file DONE");
+		}
+	}
+	
+	private void preOrderPrintNodes(PrintWriter w, TreeNode r){
+		if(r == null){ return;}
+		int myID = nodeID;
+		
+		w.println(myID + " [label=\"" + r.getStringValue() + "\", shape=circle, color=black]");
+		
+		if(r.getLeft() != null){
+			nodeID++;
+			w.println(myID + " -> " + nodeID);
+			preOrderPrintNodes(w, r.getLeft());
+		}
+		
+		
+		if(r.getRight() != null){
+			nodeID++;
+			w.println(myID + " -> " + nodeID);
+			preOrderPrintNodes(w, r.getRight());
+		}
+	}
 }
