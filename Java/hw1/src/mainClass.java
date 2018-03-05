@@ -3,13 +3,17 @@
 *   This is the main class of hw1 of course Object Oriented Programming
 */
 
+//=======================================================================================================================//
+//=======================================================================================================================//
+//=======================================================================================================================//
+//====================================================MAIN FUNCTION======================================================//
 public class mainClass {
     
     public static void main(String[] args){
         
         String Input = ReadLine();
         
-        if(!checkValidInput(Input)){
+        if(!firstCheckValidInput(Input)){
             System.out.println("Invalid Input!");
             return;
         }
@@ -20,11 +24,18 @@ public class mainClass {
         for(int i = 0; i < SetInputs.length ; i++)
             System.out.println(SetInputs[i]);
         
-        if(!checkDoubles(SetInputs)){
+        if(!secondCheckValidInput(SetInputs)){
             System.out.println("Invalid Input!");
             return;
         }
     }
+
+    //=======================================================================================================================//
+    //=======================================================================================================================//
+    //=======================================================================================================================//
+    //=======================================================================================================================//
+    //=======================================================================================================================//
+    //=======================================================================================================================//
     
     /*String ReadLine function
     *Makes String the input till new line user gives
@@ -39,22 +50,29 @@ public class mainClass {
     return line;
   }
     
-   /*Boolean checkValidInput function
-    *Checks if Sting Input is Valid to make arithmetic operations
-    *Returns true if it is, else false
+   /*Boolean firstCheckValidInput function:
+    *   
+    *Input:         String
+    *Functionality: Checks if all chars in String are Valid for
+    *               math expression and if '.' is correct placed
+    *Returns:       true if String Input is Valid, else false
     *
-    *Example:   String str = "1/3-(3+2)*8*2"
-    *           checkValidInput(str);
-    *           Returns true
+    *Example:       String str = "1/3-(3+2)*8*2"
+    *               checkValidInput(str);
+    *               Returns true
     *
-    *           String str = "1+3-(-3-+2+)a"
-    *           checkValidInput(str);
-    *           Returns false
+    *               String str = "1/3-(3+-2)9*8*2"
+    *               checkValidInput(str);
+    *               Returns true
+    *   
+    *               String str = ".1+3-(3+2+)a"
+    *               checkValidInput(str);
+    *               Returns false
     */
-   private static boolean checkValidInput(String Input){
+   private static boolean firstCheckValidInput(String Input){
        
        char tempChar;
-       int parenthesisCounter = 0;
+      // int parenthesisCounter = 0;
        int i,j;
        
        for(i = 0; i < Input.length() ; i++){
@@ -73,126 +91,22 @@ public class mainClass {
                 }
 
             }
-
-            else if(tempChar == '('){
-
-                if(isOperator( Input.charAt(i+1) ) ){
-                    System.out.println("Operator cannot finish or start expression in parenthesis!");
-                    return false;  //Example 8+(-0+3), (Numbers are Positives)
-                }
-                for(j = i+1; j < Input.length() && Character.isWhitespace(Input.charAt(j)); j++)
-                    if(isOperator( Input.charAt(j+1) ) ){
-                        System.out.println("Operator cannot finish or start expression in parenthesis!");
-                        return false;  //Example 8+(  -0+3), (Numbers are Positives)
-                    }
-                
-                if(i != 0 && Character.isDigit( Input.charAt(i-1) ) ){
-                    System.out.println("Between a parenthesis and a number must be an operator");
-                    return false;  //Example 0(9+9)
-                }
-
-                for(j = i-1; j > 0 && Character.isWhitespace(Input.charAt(j)); j--)
-                    if(Character.isDigit( Input.charAt(j-1) ) ){
-                        System.out.println("Between a parenthesis and a number must be an operator");
-                        return false;  //Example 0  (9+9)
-                    }
-                
-                //Add an opened parenthesis
-                parenthesisCounter++;
-            }
-            
-            else if(tempChar == ')'){
-
-                if(isOperator( Input.charAt(i-1) ) ){
-                    System.out.println("Operator cannot finish or start expression in parenthesis!");
-                    return false;  //Example 8+(0+3+)*10
-                }
-                for(j = i-1; j > 0 && Character.isWhitespace(Input.charAt(j)); j--)
-                    if(isOperator( Input.charAt(j-1) ) ){
-                        System.out.println("Operator cannot finish or start expression in parenthesis!");
-                        return false;  //Example 8+(0+3+  )*10
-                    }
-
-
-                if(i != Input.length() - 1 && ( Character.isDigit( Input.charAt(i+1) ) || Input.charAt(j+1) == '(' ) ){
-                    System.out.println("Between a parenthesis and a number or an other parenthesis must be an operator");
-                    return false;  //Example (9+9)0
-                }
-                for(j = i+1; j < Input.length() && Character.isWhitespace(Input.charAt(j)); j++)
-                    if(Character.isDigit( Input.charAt(j+1) ) || Input.charAt(j+1) == '('){
-                        System.out.println("Between a parenthesis and a number or an other parenthesis must be an operator");
-                        return false;  //Example (9+9)  0
-                    }
-               
-               /*Check if there is closing parenthesis symbol,
-                *without being opened
-                */
-                if(parenthesisCounter == 0){
-                    System.out.println("')' detected without openening parenthesis!");
-                    return false;
-                }
-                else 
-                    //Sub an opened parenthesis
-                    parenthesisCounter--;
-            }
-            
-            else if(isOperator(tempChar)){
-                
-                if(i == 0 || i == Input.length() - 1){
-                    System.out.println("An operator cannot start or finish a math expression");
-                    return false;  // Example 4-2+ or -0+3 (Numbers are Positives)
-                }
-                else{
-                    if(isOperator( Input.charAt(i+1) ) ){
-                        System.out.println("Between two operators must excist a number or a parenthesis!");
-                        return false;  //Example 9++3, 5-2+-4
-                    }
-
-                    for(j = i+1; j < Input.length() && Character.isWhitespace(Input.charAt(j)); j++)
-                        if(isOperator( Input.charAt(j+1) ) ){
-                            System.out.println("Between two operators must excist a number or a parenthesis!");
-                            return false;  //Example 9+    +3, 5-2+ -4
-                        }
-                }
-               
-            }
-
-            else if(Character.isDigit(tempChar)){
-                
-                if(Character.isDigit( Input.charAt(i+1)) || Input.charAt(i+1) == '(' ){
-                    System.out.println("Between two digits or digit - parenthesis must excist an operator!");
-                    return false;  //Example 9++3, 5-2+-4
-                }
-
-                for(j = i+1; j < Input.length() && Character.isWhitespace(Input.charAt(j)); j++){
-                    if(Character.isDigit( Input.charAt(j+1)) || Input.charAt(j+1) == '(' ){
-                        System.out.println("Between two digits or digit - parenthesis must excist an operator!");
-                        return false;  //Example 9++3, 5-2+-4
-                    } 
-                }
-               
-            }
             
             //If it is incompatible char
-            else if(!Character.isWhitespace(tempChar)){
+            else if( !(Character.isWhitespace(tempChar) || Character.isDigit(tempChar) || isOperator(tempChar) || tempChar == '(' || tempChar == ')') ){
                 System.out.println("Available characters (0,1,2,3,4,5,6,7,8,9,.,(,),+,-,*,/,^) !");
                 return false;
             }
-            
         }
-            
-       //Check if there is no-closed parenthesis
-       if(parenthesisCounter != 0){
-            System.out.println("You haven't closed all your parenthesis!");
-            return false;
-       }
        
        return true;
    }
    
    /*Boolean isOperator function
-    *Checks if given char is an operator (+,-,*,/,^)
-    *Returns true if it is, else false
+    *   
+    *Input:         char
+    *Functionality: Checks if char input represents an operator
+    *Returns:       true if input represents operator, else false
     *
     *Example:   char a = '+';
     *           isOperator(a);
@@ -209,6 +123,23 @@ public class mainClass {
            return false;
    }
 
+
+   /*Boolean makeWhiteSpaces function:
+    *   
+    *Input:         String
+    *Functionality: Seperates the components of input String with
+    *               WhiteSpace chars. Also if more than one WhiteSpace
+    *               excists between components, it deletes to one
+    *Returns:       The new String
+    *
+    *Example:       String str = "1/3-(3+2)*8*2"
+    *               checkValidInput(str);
+    *               Returns "1 / 3 - ( 3 + 2 ) * 8 * 2"
+    *
+    *               String str = "1 /3-(      3+2)* 8*2"
+    *               checkValidInput(str);
+    *               Returns "1 / 3 - ( 3 + 2 ) * 8 * 2"
+    */
     private static String makeWhiteSpaces(String Input){
         
         StringBuffer StrBuf = new StringBuffer();
@@ -233,23 +164,126 @@ public class mainClass {
         return StrBuf.toString();
     }
 
-    private static boolean checkDoubles(String []SetInputs){
+    /*Boolean secondCheckValidInput function:
+    *   
+    *Input:         Table of Strings
+    *Functionality: Checks if Input components makes sense
+    *               as math expression.
+    *Returns:       true if String Input is it makes, else false
+    *
+    *Example:       String[] SetStr = {"1", "/", "3", "-", "(", "3.0", "+", "2", ")", "*", "8", "*", "2.3"}
+    *               checkValidInput(str);
+    *               Returns true
+    *
+    *               String[] SetStr = {"1", "/", "3", "3.42435", "-", "(", "3.0", "+", "2", ")", "*", "8", "*", "2.3"}
+    *               checkValidInput(str);
+    *               Returns false
+    *
+    *               String[] SetStr = {"1", "/", "3", "-", "(", "(", "3.0", "+", "2", ")", "*", "8", "*", "2.3"}
+    *               checkValidInput(str);
+    *               Returns false
+    *           
+    *               String[] SetStr = {"1", "/", "3", "-", "(", "3.0", "+", "2", ")", ")", "*", "8", "*", "2.3"}
+    *               checkValidInput(str);
+    *               Returns false
+    *
+    *               String[] SetStr = {"1", "/", "3", "-", "(", "3.0", "+", "2", ")", "*", "+", "8", "*", "2.3"}
+    *               checkValidInput(str);
+    *               Returns true
+    */
+    private static boolean secondCheckValidInput(String []SetInputs){
 
         int i;
         int first_occ;
+        int parenthesisCounter = 0;
+
+        char tempChar;
+
 
         for(i = 0; i < SetInputs.length; i++){
-                first_occ = SetInputs[i].indexOf('.');
-                if(first_occ == -1){
-                    break;
+
+            //CHECK FOR 2 POINTS IN A NUMBER
+            first_occ = SetInputs[i].indexOf('.');
+            if(SetInputs[i].indexOf('.', first_occ + 1) > -1){
+                System.out.println("Real numbers have only one '.'!");
+                return false;
+            }
+            
+
+            tempChar = SetInputs[i].charAt(0); 
+
+            if(tempChar == '('){
+
+                if(isOperator( SetInputs[i+1].charAt(0) ) ){
+                    System.out.println("Operator cannot finish or start expression in parenthesis!");
+                    return false;  //Example 8+(-0+3), (Numbers are Positives)
+                }
+                
+                if(i != 0 && Character.isDigit( SetInputs[i-1].charAt(0) ) ){
+                    System.out.println("Between a parenthesis and a number must be an operator");
+                    return false;  //Example 0(9+9)
+                }
+                
+                //Add an opened parenthesis
+                parenthesisCounter++;
+            }
+
+            else if(tempChar == ')'){
+
+                if(parenthesisCounter == 0){
+                    System.out.println("')' detected without openening parenthesis!");
+                    return false;
+                }
+                else 
+                    //Sub an opened parenthesis
+                    parenthesisCounter--;
+
+                if(isOperator( SetInputs[i-1].charAt(0) ) ){
+                    System.out.println("Operator cannot finish or start expression in parenthesis!");
+                    return false;  //Example 8+(0+3+)*10
+                }
+
+
+                if(i != SetInputs.length - 1 && ( Character.isDigit( SetInputs[i+1].charAt(0) ) || SetInputs[i+1].charAt(0) == '(' ) ){
+                    System.out.println("Between a parenthesis and a number or an other parenthesis must be an operator");
+                    return false;  //Example (9+9)0, (8-9)(4/8)
+                } 
+
+
+            }   
+
+
+            else if(isOperator(tempChar)){
+                
+                if(i == 0 || i == SetInputs.length - 1){
+                    System.out.println("An operator cannot start or finish a math expression");
+                    return false;  // Example 4-2+ or -0+3 (Numbers are Positives)
                 }
                 else{
-                    if(SetInputs[i].indexOf('.', first_occ + 1) > -1){
-                        System.out.println("Real numbers have only one '.'!");
-                        return false;
+                    if(isOperator( SetInputs[i+1].charAt(0) ) ){
+                        System.out.println("Between two operators must excist a number or a parenthesis!");
+                        return false;  //Example 9++3, 5-2+-4
                     }
                 }
-        }
+            }
+
+            else if(Character.isDigit(tempChar)){
+                
+
+                if(i < SetInputs.length -1 && Character.isDigit( SetInputs[i+1].charAt(0) ) ){
+                    System.out.println("Between two numbers must excist an operator!");
+                    return false;  //Example 9++3, 5-2+-4
+                } 
+            }
+
+
+
+        }//FOR LOOP ENDS
+
+        if(parenthesisCounter != 0){
+            System.out.println("You haven't closed all your parenthesis!");
+            return false;
+        } 
 
         return true;
     }
