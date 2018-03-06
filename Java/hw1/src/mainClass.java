@@ -4,6 +4,8 @@
 *   This is the main class of hw1 of course Object Oriented Programming
 */
 
+import java.util.Scanner;
+
 //***********************************************************************************************************************//
 //***********************************************************************************************************************//
 //***********************************************************************************************************************//
@@ -29,6 +31,20 @@ public class mainClass {
             System.out.println("Invalid Input!");
             return;
         }
+		
+		Scanner scan = new Scanner(System.in);
+        
+        Tree sampleTree = new Tree(); //insertion with preorder
+        sampleTree.insert();
+		
+        System.out.println("\n\n------- toDotString -------");
+		sampleTree.toDotString();
+
+        System.out.println("\n\n-------- toString --------");
+        System.out.println(sampleTree.toString());
+        
+        System.out.println("\n\n-------- Calculate --------");
+        System.out.println(sampleTree.calculate());
     }
 
     //***********************************************************************************************************************//
