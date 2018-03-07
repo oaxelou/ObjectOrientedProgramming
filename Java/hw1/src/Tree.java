@@ -20,7 +20,9 @@ public class Tree {
     
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
-    private static int nodeID = 0;
+	
+	// private static String toDotStr = "\n";
+	// private static int nodeID = 0;
 	
     public Tree(){
         // mporei apo edw na kaleitai h insert me ton pinaka twn string gia orismata
@@ -72,12 +74,11 @@ public class Tree {
                 return r;
     }
 	
-    // EDW THA MPEI H CALCULATE
     public double calculate(){
         return calculate(root);
     }
     
-    public double calculate(TreeNode r){
+    private double calculate(TreeNode r){
         if(r == null){
             return 0;
         }
@@ -93,7 +94,7 @@ public class Tree {
         return chooseOperator(calculate(r.left), r.operatorValue, calculate(r.right));
     }
 	
-	private double chooseOperator(double leftSide, char operatorToCheck, double rightSide){
+	private static double chooseOperator(double leftSide, char operatorToCheck, double rightSide){
 		switch(operatorToCheck){
 			case '+':
 				return leftSide + rightSide;
@@ -112,57 +113,21 @@ public class Tree {
     }
 	 
 	public String toString(){
-		return toString(root) + '\n';
+		return root.toString() + '\n';
 	}
 	
-	public String toString(TreeNode r){
-		String s;
-                if(r == null){ return null;}
-                
-                if(r.getLeft() != null){
-                    return "(" + toString(r.getLeft()) + r.getStringValue() + toString(r.getRight()) + ")"; //recursion
-                }
-                else{
-                    s =  "(" + r.getStringValue() + ")";
-                }
-		
-                return s;
-		// r.getValue(): TSEKARE TO AYTO -> ALLAGES STO TreeNode.java + isws nea klassh! DONE BUT NOT CHECKED
-	}
-	
-	public void dotString(PrintWriter pfile, String dotFileName){
+	public String dotString(String dotFileName){
 		String returnedStr;
 		
-		pfile.println("digraph ArithmeticExpressionTree{");
-		pfile.println("forntcolor=\"navy\"");
-		pfile.println("fontsize=20;");
-		pfile.println("labelloc=\"t\"");
-		pfile.println("label=\"Arithmetic Expression\"");
+		returnedStr = "digraph " + dotFileName + "Tree{\n";
+		returnedStr += "forntcolor=\"navy\";\n";
+		returnedStr += "fontsize=20;\n";
+		returnedStr += "labelloc=\"t\";\n";
+		returnedStr += "label=\"Arithmetic Expression\"";
 		//***************************
-		// preorder printing
-		toDotString(pfile, root);
+		returnedStr += root.toDotString();
 		
 		//***************************
-		pfile.println("}");
-	}
-
-	private void toDotString(PrintWriter w, TreeNode r){
-		if(r == null){ return;}
-		int myID = nodeID;
-		
-		w.println(myID + " [label=\"" + r.getStringValue() + "\", shape=circle, color=black]");
-		
-		if(r.getLeft() != null){
-			nodeID++;
-			w.println(myID + " -> " + nodeID);
-			toDotString(w, r.getLeft());
-		}
-		
-		
-		if(r.getRight() != null){
-			nodeID++;
-			w.println(myID + " -> " + nodeID);
-			toDotString(w, r.getRight());
-		}
+		return returnedStr + "}\n";
 	}
 }

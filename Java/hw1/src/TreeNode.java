@@ -18,6 +18,9 @@ public class TreeNode {
     
     public static final int OPERATOR = 0;
     public static final int NUMBER = 1;
+	
+	private static int nodeID = 0;
+	private static String toDotStr = "\n";
     
     TreeNode(char operatorValue){
 	//System.out.println("In char constructor");
@@ -35,27 +38,6 @@ public class TreeNode {
         left = null;
     }
     
-    TreeNode(){
-    }
-    
-    public void setLeft(TreeNode n){
-        left = n;
-    }
-    
-    public void setRight(TreeNode n){
-        right = n;
-    }
-
-    public void setType(double numberValue){
-        type = NUMBER;
-        this.numberValue = numberValue;
-    }
-    
-    public void setType(char operatorValue){
-        type = OPERATOR;
-        this.operatorValue = operatorValue;
-    }
-    
     public TreeNode getRight(){
         return right;
     }
@@ -67,24 +49,50 @@ public class TreeNode {
     public double getNumberValue(){
         if(type == NUMBER) 
             return numberValue;
-        System.out.println("Not a number. Can not return value");
-//        java.lang.System.1exit(-1);
         return -1;        
     }
-	
-	// public String getOperator(){
-		// if(type == OPERATOR){
-			// return operatorValue;
-		// }
-	// }
 	
 	public String getStringValue(){
         if(type == NUMBER) 
             return ""+numberValue;
         else{ // type == OPERATOR
-            return ""+operatorValue;
-	}      
+            return ""+operatorValue;   
+		}			
     }
 	
-	// methodo gia ta operators h klassh oloklhrh?!
+	public String toString(){
+		String s;
+      
+        if(left != null){
+            return "(" + left.toString() + getStringValue() + right.toString() + ")"; //recursion
+        }
+        else{
+            s =  "(" + getStringValue() + ")";
+        }
+		
+        return s;
+	}
+	
+	public String toDotString(){
+		// if(r == null){ return null;}
+		
+		int myID = nodeID;
+		System.out.println("myID: " + myID);
+		
+		toDotStr += myID + " [label=\"" + getStringValue() + "\", shape=circle, color=black]\n";
+		
+		if(left != null){
+			nodeID++;
+			toDotStr += myID + " -> " + nodeID + "\n";
+			left.toDotString();
+		}
+		
+		
+		if(right != null){
+			nodeID++;
+			toDotStr += myID + " -> " + nodeID + "\n";
+			right.toDotString();
+		}
+		return toDotStr;
+	}
 }

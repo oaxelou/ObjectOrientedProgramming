@@ -35,14 +35,14 @@ public class mainClass {
 		
 		Scanner scan = new Scanner(System.in);
         
-        Tree arithmeticTree = new Tree(); //insertion with preorder
+        Tree arithmeticTree = new Tree();
         arithmeticTree.insert();
 		
         System.out.println("\n\n------- toDotString -------");
 		PrintWriter writer = null;
 		try {        
 			PrintWriter pfile = new PrintWriter("ArithmeticExpression.dot");
-			arithmeticTree.dotString(pfile, "Arithmetic Expression");
+			pfile.println(arithmeticTree.dotString("ArithmeticExpression"));
 			pfile.close();
 			System.out.println("PRINT DOT FILE OK!");
          
