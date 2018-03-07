@@ -9,7 +9,7 @@
  *
  * @author oaxel
  */
-import java.util.Scanner;
+import java.util.Scanner; // otan ftiaxtei h insert den tha xreiazetai auto to import 
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,8 +21,9 @@ public class Tree {
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
     private static int nodeID = 0;
+	
     public Tree(){
-        //root = new TreeNode();
+        // mporei apo edw na kaleitai h insert me ton pinaka twn string gia orismata
 		
     }
     
@@ -71,78 +72,6 @@ public class Tree {
                 return r;
     }
 	
-    // function to insert an operator node
-    // public TreeNode insert(TreeNode node, int child, int operatorValue){
-        // if(node == null){
-            // System.out.println("Node is null. Should not have happened");
-            // return null;
-        // }
-        // else{
-            // if(child == LEFT){
-                // node.left = new TreeNode(operatorValue);
-            // }
-            // else{
-                // node.right = new TreeNode(operatorValue);
-            // }
-        // }
-        // return node;
-    // }
-    
-    // function to insert a number node
-    // public TreeNode insert(TreeNode node, int child, double numberValue){
-        // if(node == null){
-            // System.out.println("Node is null. Should not have happened");
-            // return null;
-        // }
-        // else{
-            // if(child == LEFT){
-                // node.left = new TreeNode(numberValue);
-            // }
-            // else{
-                // node.right = new TreeNode(numberValue);
-            // }
-        // }
-        // return node;
-    // }
-    
-    //mallon den to xreiazomaste
-    public int countNodes(){
-        return countNodes(root);
-    }
-    
-    // function to count nodes recursively //mallon den to xreiazomaste
-    public int countNodes(TreeNode r){
-        if(r == null){
-            return 0;
-        }
-        else{
-            int l = 1;
-            l += countNodes(r.getRight());
-            l += countNodes(r.getLeft());
-            return l;
-        }
-    }
-    /*
-    //mallon den to xreiazomaste
-    public void postorder(){
-        postorder(root);
-    }
-    
-    //mallon den to xreiazomaste
-    public void postorder(TreeNode r){
-        if(r != null){
-            postorder(r.getLeft());
-            postorder(r.getRight());
-            if(r.type == TreeNode.OPERATOR){
-                System.out.print("+" + " ");
-            }
-            else{
-                System.out.print(r.getValue() + " ");
-            }    
-            
-        }
-    }
-    */
     // EDW THA MPEI H CALCULATE
     public double calculate(){
         return calculate(root);
@@ -181,22 +110,17 @@ public class Tree {
 				return -1;
 		}
     }
-	
-    // tha mpei mia sunarthsh typou insert edw pou tha kalei thn hdh ulopoihmenh insert
-    // H domh ths omws eksartatai apo to pws diaxeirizomaste ta strings
-	
-	    
-    // edw tha mpei h toString 
+	 
 	public String toString(){
-		return toStringInternal(root);
+		return toString(root) + '\n';
 	}
 	
-	public String toStringInternal(TreeNode r){
+	public String toString(TreeNode r){
 		String s;
                 if(r == null){ return null;}
                 
                 if(r.getLeft() != null){
-                    return "(" + toStringInternal(r.getLeft()) + r.getStringValue() + toStringInternal(r.getRight()) + ")"; //recursion
+                    return "(" + toString(r.getLeft()) + r.getStringValue() + toString(r.getRight()) + ")"; //recursion
                 }
                 else{
                     s =  "(" + r.getStringValue() + ")";
@@ -206,37 +130,23 @@ public class Tree {
 		// r.getValue(): TSEKARE TO AYTO -> ALLAGES STO TreeNode.java + isws nea klassh! DONE BUT NOT CHECKED
 	}
 	
-	public String toStringInternal(){
-		return toStringInternal(root) + "\n";
+	public void dotString(PrintWriter pfile, String dotFileName){
+		String returnedStr;
+		
+		pfile.println("digraph ArithmeticExpressionTree{");
+		pfile.println("forntcolor=\"navy\"");
+		pfile.println("fontsize=20;");
+		pfile.println("labelloc=\"t\"");
+		pfile.println("label=\"Arithmetic Expression\"");
+		//***************************
+		// preorder printing
+		toDotString(pfile, root);
+		
+		//***************************
+		pfile.println("}");
 	}
-    
-    // edw tha mpei h toDotString
-	public void toDotString(){
-		PrintWriter writer = null;
-		try{
-			writer = new PrintWriter("ArithmeticExpression.dot");
-			writer.println("digraph ArithmeticBullshitTree{");
-			writer.println("forntcolor=\"navy\"");
-			writer.println("fontsize=20;");
-			writer.println("labelloc=\"t\"");
-			writer.println("label=\"Arithmetic Expression\"");
-			//***************************
-			// preorder printing
-			preOrderPrintNodes(writer, root);
-			
-			//***************************
-			writer.println("}");
-		}catch(FileNotFoundException | SecurityException e){
-			e.printStackTrace();
-		}finally{
-			if(writer != null){
-				writer.close();
-			}
-			System.out.println(".dot file DONE");
-		}
-	}
-	
-	private void preOrderPrintNodes(PrintWriter w, TreeNode r){
+
+	private void toDotString(PrintWriter w, TreeNode r){
 		if(r == null){ return;}
 		int myID = nodeID;
 		
@@ -245,14 +155,14 @@ public class Tree {
 		if(r.getLeft() != null){
 			nodeID++;
 			w.println(myID + " -> " + nodeID);
-			preOrderPrintNodes(w, r.getLeft());
+			toDotString(w, r.getLeft());
 		}
 		
 		
 		if(r.getRight() != null){
 			nodeID++;
 			w.println(myID + " -> " + nodeID);
-			preOrderPrintNodes(w, r.getRight());
+			toDotString(w, r.getRight());
 		}
 	}
 }

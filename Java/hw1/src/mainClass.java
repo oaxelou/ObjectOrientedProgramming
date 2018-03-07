@@ -5,6 +5,7 @@
 */
 
 import java.util.Scanner;
+import java.io.PrintWriter;
 
 //***********************************************************************************************************************//
 //***********************************************************************************************************************//
@@ -34,17 +35,31 @@ public class mainClass {
 		
 		Scanner scan = new Scanner(System.in);
         
-        Tree sampleTree = new Tree(); //insertion with preorder
-        sampleTree.insert();
+        Tree arithmeticTree = new Tree(); //insertion with preorder
+        arithmeticTree.insert();
 		
         System.out.println("\n\n------- toDotString -------");
-		sampleTree.toDotString();
+		PrintWriter writer = null;
+		try {        
+			PrintWriter pfile = new PrintWriter("ArithmeticExpression.dot");
+			arithmeticTree.dotString(pfile, "Arithmetic Expression");
+			pfile.close();
+			System.out.println("PRINT DOT FILE OK!");
+         
+			Process p = Runtime.getRuntime().exec("dot -Tpng ArithmeticExpression.dot " + "-o ArithmeticExpression.png");
+			p.waitFor();
+			System.out.println("PRINT PNG FILE OK!");
+		} catch(Exception ex) {
+			System.err.println("Unable to write dotString!!!");
+			ex.printStackTrace();
+			System.exit(1);
+		}
 
         System.out.println("\n\n-------- toString --------");
-        System.out.println(sampleTree.toString());
+        System.out.println(arithmeticTree.toString());
         
         System.out.println("\n\n-------- Calculate --------");
-        System.out.println(sampleTree.calculate());
+        System.out.println(arithmeticTree.calculate());
     }
 
     //***********************************************************************************************************************//
