@@ -24,8 +24,9 @@ public class Tree {
 	// private static String toDotStr = "\n";
 	// private static int nodeID = 0;
 	
-    public Tree(){
-        // mporei apo edw na kaleitai h insert me ton pinaka twn string gia orismata
+    public Tree(String[] SetInputs){
+   
+        makeTree(SetInputs, 0, SetInputs.length -1);
 		
     }
     
@@ -38,6 +39,147 @@ public class Tree {
 	public void insert(){
 		root = insert(root);
 	}
+
+	public void makeTree(String[] SetInputs, int left, int right){
+
+		int parenthesisCounter = 0;
+		int i, j;
+
+		if(SetInputs[left].charAt(0) == '(' && SetInputs[right].charAt(0) == ')')
+			makeTree(SetInputs, left +1, right -1);
+
+		//CHECK FOR ADDITION
+		for(i=left; i <=right; i++){
+			if(SetInputs[i].charAt(0) == '+'){
+				insert(); //Make Node
+				makeTree(SetInputs, left, i-1);
+				makeTree(SetInputs, i+1, right);
+				return;
+			}
+
+			if(SetInputs[i].charAt(0) == '('){
+				parenthesisCounter = 1;
+				for(j=i + 1; j<= left; j++){
+					if(SetInputs[j].charAt(0) == '(')
+						parenthesisCounter++;
+					if(SetInputs[j].charAt(0) == ')'){
+						parenthesisCounter--;
+						if(parenthesisCounter == 0){
+							i = j;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		//CHECK FOR SUBSTITUTION
+		for(i=left; i <=right; i++){
+			if(SetInputs[i].charAt(0) == '-'){
+				insert(); //Make Node
+				makeTree(SetInputs, left, i-1);
+				makeTree(SetInputs, i+1, right);
+				return;
+			}
+
+			if(SetInputs[i].charAt(0) == '('){
+				parenthesisCounter = 1;
+				for(j=i + 1; j<= left; j++){
+					if(SetInputs[j].charAt(0) == '(')
+						parenthesisCounter++;
+					if(SetInputs[j].charAt(0) == ')'){
+						parenthesisCounter--;
+						if(parenthesisCounter == 0){
+							i = j;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		//CHECK FOR MULTIPLICATION
+		for(i=left; i <=right; i++){
+			if(SetInputs[i].charAt(0) == '*'){
+				insert(); //Make Node
+				makeTree(SetInputs, left, i-1);
+				makeTree(SetInputs, i+1, right);
+				return;
+			}
+
+			if(SetInputs[i].charAt(0) == '('){
+				parenthesisCounter = 1;
+				for(j=i + 1; j<= left; j++){
+					if(SetInputs[j].charAt(0) == '(')
+						parenthesisCounter++;
+					if(SetInputs[j].charAt(0) == ')'){
+						parenthesisCounter--;
+						if(parenthesisCounter == 0){
+							i = j;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		//CHECK FOR DIVISION
+		for(i=left; i <=right; i++){
+			if(SetInputs[i].charAt(0) == '/'){
+				insert(); //Make Node
+				makeTree(SetInputs, left, i-1);
+				makeTree(SetInputs, i+1, right);
+				return;
+			}
+
+			if(SetInputs[i].charAt(0) == '('){
+				parenthesisCounter = 1;
+				for(j=i + 1; j<= left; j++){
+					if(SetInputs[j].charAt(0) == '(')
+						parenthesisCounter++;
+					if(SetInputs[j].charAt(0) == ')'){
+						parenthesisCounter--;
+						if(parenthesisCounter == 0){
+							i = j;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		//CHECK FOR EXPONENT
+		for(i=left; i <=right; i++){
+			if(SetInputs[i].charAt(0) == '+'){
+				insert(); //Make Node
+				makeTree(SetInputs, left, i-1);
+				makeTree(SetInputs, i+1, right);
+				return;
+			}
+
+			if(SetInputs[i].charAt(0) == '('){
+				parenthesisCounter = 1;
+				for(j=i + 1; j<= left; j++){
+					if(SetInputs[j].charAt(0) == '(')
+						parenthesisCounter++;
+					if(SetInputs[j].charAt(0) == ')'){
+						parenthesisCounter--;
+						if(parenthesisCounter == 0){
+							i = j;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		//ELSE IS DIGIT
+		insert();
+
+		return;
+	}
+
+	
 	
 	public TreeNode insert(TreeNode r){
 		Scanner scan = new Scanner(System.in);
@@ -73,6 +215,7 @@ public class Tree {
                 
                 return r;
     }
+
 	
     public double calculate(){
         return calculate(root);
