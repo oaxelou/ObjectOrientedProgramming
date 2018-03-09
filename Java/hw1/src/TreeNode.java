@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-/**
- *
- * @author oaxel
- */
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   
+*/
+ 
 public class TreeNode {
     int type; // values: 0 OPERATOR, 1 NUMBER
     char operatorValue; // enum.... klp operators klash
@@ -22,16 +17,14 @@ public class TreeNode {
 	private static int nodeID = 0;
 	private static String toDotStr = "\n";
     
-    TreeNode(char operatorValue){
-	//System.out.println("In char constructor");
+    TreeNode(char operatorValue){ // constructor for nodes with operators
         type = OPERATOR;
         this.operatorValue = operatorValue;
         right = null;
         left = null;
     }
     
-    TreeNode(double numberValue){
-	//System.out.println("In double constructor");
+    TreeNode(double numberValue){ // constructor for nodes with numbers
         type = NUMBER;
         this.numberValue = numberValue;
         right = null;
@@ -74,10 +67,7 @@ public class TreeNode {
 	}
 	
 	public String toDotString(){
-		// if(r == null){ return null;}
-		
 		int myID = nodeID;
-		System.out.println("myID: " + myID);
 		
 		toDotStr += myID + " [label=\"" + getStringValue() + "\", shape=circle, color=black]\n";
 		
@@ -86,7 +76,6 @@ public class TreeNode {
 			toDotStr += myID + " -> " + nodeID + "\n";
 			left.toDotString();
 		}
-		
 		
 		if(right != null){
 			nodeID++;
