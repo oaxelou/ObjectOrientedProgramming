@@ -2,6 +2,16 @@
 *               Axelou Olympia            oaxelou@inf.uth.gr
 *
 *   This is the main class of hw1 of course Object Oriented Programming
+*   Project: Arithmetic Calculator
+*
+*   Input (stdin): An arithmetic expression
+*   
+*   Creates a tree where it stores all the components of the expression.
+*   All the calculations and the printing is done recursively from the tree.
+*   
+*   Output(stdout + files): calculation, altered expression, the tree (picture).
+*
+*   Compilation and execution: NetBeans
 */
 
 package ce325.hw1;
@@ -9,8 +19,7 @@ package ce325.hw1;
 import java.util.Scanner;
 import java.io.PrintWriter;
 
-/****************************************************MAIN FUNCTION******************************************************/
-public class mainClass {
+public class ArithmeticCalculator {
     
     public static void main(String[] args){
         
@@ -32,26 +41,26 @@ public class mainClass {
 
         /*************** END OF INPUT CHECKING ***************/
 		
-		Scanner scan = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
         
         Tree arithmeticTree = new Tree(SetInputs);
 		
         System.out.println("\n\n------- toDotString -------");
-		PrintWriter writer = null;
-		try {        
-			PrintWriter pfile = new PrintWriter("ArithmeticExpression.dot");
-			pfile.println(arithmeticTree.toDotString("ArithmeticExpression"));
-			pfile.close();
-			System.out.println("PRINT DOT FILE OK!");
-         
-			Process p = Runtime.getRuntime().exec("dot -Tpng ArithmeticExpression.dot " + "-o ArithmeticExpression.png");
-			p.waitFor();
-			System.out.println("PRINT PNG FILE OK!");
-		} catch(Exception ex) {
-			System.err.println("Unable to write dotString!!!");
-			ex.printStackTrace();
-			System.exit(1);
-		}
+            PrintWriter writer = null;
+            try {        
+                PrintWriter pfile = new PrintWriter("ArithmeticExpression.dot");
+                pfile.println(arithmeticTree.toDotString("ArithmeticExpression"));
+                pfile.close();
+                System.out.println("PRINT DOT FILE OK!");
+
+                Process p = Runtime.getRuntime().exec("dot -Tpng ArithmeticExpression.dot " + "-o ArithmeticExpression.png");
+                p.waitFor();
+                System.out.println("PRINT PNG FILE OK!");
+            } catch(Exception ex) {
+                System.err.println("Unable to write dotString!!!");
+                ex.printStackTrace();
+                System.exit(1);
+            }
 
         System.out.println("\n\n-------- toString --------");
         System.out.println(arithmeticTree.toString());
@@ -60,8 +69,9 @@ public class mainClass {
         System.out.println(arithmeticTree.calculate());
     }
 
-    /*******************************************************************************************************************/
-    
+    /*************************************************************************/
+    /*			Static Methods for Input Checking		     */
+
     /*String ReadLine function
     *Makes String the input till new line user gives
     *Returns the string made
