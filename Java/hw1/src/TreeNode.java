@@ -1,30 +1,35 @@
 /*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
 *               Axelou Olympia            oaxelou@inf.uth.gr
 *
-*   
+*   The class of the node of the tree. 
+*   Every method and variable specifically refers to the node it is called for.
 */
  
 public class TreeNode {
-    int type; // values: 0 OPERATOR, 1 NUMBER
-    char operatorValue; // enum.... klp operators klash
-    double numberValue;
-    TreeNode left;
-    TreeNode right;
+    public int type; 				/* values: 0 OPERATOR, 1 NUMBER        */
+    public char operatorValue;		/* values: '+' , '-' , '*' , '/' , '^' */
+    public double numberValue;
+    public TreeNode left;
+    public TreeNode right;
     
     public static final int OPERATOR = 0;
     public static final int NUMBER = 1;
 	
-	private static int nodeID = 0;
-	private static String toDotStr = "\n";
+	private static int nodeID = 0;		  	/* unique node id for toDotString */
+	private static String toDotStr = "\n";	/*    the returned string         */
     
-    TreeNode(char operatorValue){ // constructor for nodes with operators
+    /* Constructor for nodes with operators 
+	 */
+	TreeNode(char operatorValue){
         type = OPERATOR;
         this.operatorValue = operatorValue;
         right = null;
         left = null;
     }
     
-    TreeNode(double numberValue){ // constructor for nodes with numbers
+	/* Constructor for nodes with numbers 
+	 */
+    TreeNode(double numberValue){
         type = NUMBER;
         this.numberValue = numberValue;
         right = null;
@@ -39,6 +44,11 @@ public class TreeNode {
         return left;
     }
     
+	/* Simple method. 
+	 * Returns a double. Specifically, returns the value 
+	 * of the number stored in the node.
+	 * We assume that it is called correctly: for a node that has numberValue
+	 */
     public double getNumberValue(){
         if(type == NUMBER) 
             return numberValue;
@@ -46,6 +56,10 @@ public class TreeNode {
         return -1;        
     }
 	
+	/* Simple method. 
+	 * Returns a string with the information of the node.
+	 * Either the operator or the number.
+	 */
 	public String getStringValue(){
         if(type == NUMBER) 
             return ""+numberValue;
@@ -54,6 +68,11 @@ public class TreeNode {
 		}			
     }
 	
+	/* Recursive method. 
+	 * Returns a string with the arithmetic expression.
+	 * It adds parenthesis around a basic calculation 
+	 *                     AND both sides of a number.
+	 */
 	public String toString(){
 		String s;
       
@@ -67,6 +86,9 @@ public class TreeNode {
         return s;
 	}
 	
+	/* Recursive method. 
+	 * Returns a string with the info for the nodes for the dot file.
+	 */
 	public String toDotString(){
 		int myID = nodeID;
 		
