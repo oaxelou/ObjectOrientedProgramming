@@ -5,6 +5,8 @@
 *	The input of the constructor is CORRECT and stored in an array of strings.
 *	The error checking has been done in main.
 */
+
+package ce325.hw1;
  
 public class Tree {
     public TreeNode root;

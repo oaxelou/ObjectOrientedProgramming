@@ -4,6 +4,8 @@
 *   This is the main class of hw1 of course Object Oriented Programming
 */
 
+package ce325.hw1;
+
 import java.util.Scanner;
 import java.io.PrintWriter;
 
@@ -22,8 +24,6 @@ public class mainClass {
         Input = makeWhiteSpaces(Input);
                
         String[] SetInputs = Input.split(" ");
-        for(int i = 0; i < SetInputs.length ; i++)
-            System.out.println(SetInputs[i]);
         
         if(!secondCheckValidInput(SetInputs)){
             System.out.println("Invalid Input!");
@@ -67,13 +67,13 @@ public class mainClass {
     *Returns the string made
     */
     private static String ReadLine() {
-    java.util.Scanner sc = new java.util.Scanner(System.in);
-    System.out.print("Enter math expression: ");
-    String line = sc.nextLine();
-    System.out.println("Math expression is: "+line);
-    
-    return line;
-  }
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        System.out.print("Enter math expression: ");
+        String line = sc.nextLine();
+        System.out.println("Math expression is: "+line);
+        
+        return line;
+    }
     
    /*Boolean firstCheckValidInput function:
     *   
@@ -94,7 +94,7 @@ public class mainClass {
     *               checkValidInput(str);
     *               Returns false
     */
-   private static boolean firstCheckValidInput(String Input){
+    private static boolean firstCheckValidInput(String Input){
        
        char tempChar;
       // int parenthesisCounter = 0;
@@ -125,7 +125,7 @@ public class mainClass {
         }
        
        return true;
-   }
+    }
    
    /*Boolean isOperator function
     *   
@@ -141,7 +141,7 @@ public class mainClass {
     *           isOperator(a);
     *           Returns false
     */
-   private static boolean isOperator(char a){
+    private static boolean isOperator(char a){
        if(a == '/' || a == '*' || a == '+' || a == '-' || a == '^')
            return true;
        else

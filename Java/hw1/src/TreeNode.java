@@ -5,6 +5,8 @@
 *   Every method and variable specifically refers to the node it is called for.
 */
  
+package ce325.hw1;
+
 public class TreeNode {
     public int type; 				/* values: 0 OPERATOR, 1 NUMBER        */
     public char operatorValue;		/* values: '+' , '-' , '*' , '/' , '^' */
