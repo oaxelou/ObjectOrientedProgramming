@@ -42,6 +42,7 @@ public class TreeNode {
     public double getNumberValue(){
         if(type == NUMBER) 
             return numberValue;
+		System.out.println("Should never reach this (getNumberValue)");  
         return -1;        
     }
 	

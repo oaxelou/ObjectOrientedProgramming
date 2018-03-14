@@ -17,7 +17,6 @@ public class Tree {
 	public TreeNode makeTree(TreeNode r, String[] SetInputs, int left, int right){
 
 		if(left == right){ // it's a number
-			// System.out.println("Left: " + left + ", Right: " + right + ",It's a number: " + SetInputs[left]);
 			r = new TreeNode(Double.parseDouble(SetInputs[left]));
 		}
 		else{
@@ -41,18 +40,13 @@ public class Tree {
 							OperatorPriority = tempPriority;
 						}
 					}
-					else{ // an ftasei se auto to shmeio shmainei oti vrhke arithmo! 
-						// System.out.println("Left: " + left + ", Right: " + right + ",Must be a number: " + SetInputs[i]);
-					} 
+					// an ftasei se auto to shmeio shmainei oti vrhke arithmo! 
 				}
 			}
 			
 			if(OperatorPosition == -1){
-				// System.out.println("Left: " + left + ", Right: " + right + ",Didn't find an operator");
 				r = makeTree(r, SetInputs, left + 1, right -1);
-				// System.exit(1);
 			}else{
-				// System.out.println("OperatorPosition: " + OperatorPosition);
 				r = new TreeNode(SetInputs[OperatorPosition].charAt(0));
 		
 				r.right = makeTree(r, SetInputs, OperatorPosition + 1, right);
