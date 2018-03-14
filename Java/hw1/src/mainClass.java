@@ -40,7 +40,7 @@ public class mainClass {
 		PrintWriter writer = null;
 		try {        
 			PrintWriter pfile = new PrintWriter("ArithmeticExpression.dot");
-			pfile.println(arithmeticTree.dotString("ArithmeticExpression"));
+			pfile.println(arithmeticTree.toDotString("ArithmeticExpression"));
 			pfile.close();
 			System.out.println("PRINT DOT FILE OK!");
          

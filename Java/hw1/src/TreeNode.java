@@ -55,7 +55,39 @@ public class TreeNode {
 		System.out.println("Should never reach this (getNumberValue)");  
         return -1;        
     }
+	    
+	/* Recursive method.
+	 * Calls the TreeNode.toDotString from the root and collects the node info
+	 */
+    public double calculate(){
+        if(right == null && left == null){ // IT'S A NUMBER
+            return getNumberValue();
+        }
+        // else.. it's an operator
+        return chooseOperator(left.calculate(), operatorValue, right.calculate());
+    }
 	
+	/* Static method: Returns the result (double) of the inputs.
+	 * Performs a single calculation
+	 */
+	private static double chooseOperator(double leftSide, char operatorToCheck, double rightSide){
+		switch(operatorToCheck){
+			case '+':
+				return leftSide + rightSide;
+			case '-':
+				return leftSide - rightSide;
+			case '*':
+				return leftSide * rightSide;
+			case '/':
+				return leftSide / rightSide;
+			case '^':
+				return Math.pow(leftSide, rightSide);
+			default:
+				System.out.println("Not an operator (should never reach this case)");
+				return -1;
+		}
+    }
+	 
 	/* Simple method. 
 	 * Returns a string with the information of the node.
 	 * Either the operator or the number.
