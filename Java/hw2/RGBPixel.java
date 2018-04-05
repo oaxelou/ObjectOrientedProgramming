@@ -1,7 +1,5 @@
 // package ce325.hw2;
 
-// MENEI MONO O CONSTRUCTOR GIA TA YUVPixels !
-
 public class RGBPixel{
   private int color;
 
@@ -18,31 +16,32 @@ public class RGBPixel{
     this(pixel.getRed(), pixel.getGreen(), pixel.getBlue());
   }
 
-  // public RGBPixel(YUVPixel pixel){
-  //   short c,d,e, red, green, blue;
-  //   short auxiliary = 1;
-  //
-  //   c = y - 16 * auxiliary;
-  //   d = u - 128;
-  //   e = v - 128;
-  //
-  //   red   = clip((298 * c           + 409 * e + 128) >> 8);
-  //   green = clip((298 * c - 100 * d - 208 * e + 128) >> 8);
-  //   blue  = clip((298 * c + 516 * d           + 128) >> 8);
-  //
-  //  this(red, green, blue);
-  // }
+  /*
+  public RGBPixel(YUVPixel pixel){
+    int c = pixel.getY() -  16;
+    int d = pixel.getU() - 128;
+    int e = pixel.getV() - 128;
 
-  // // auxiliary function for constructor for YUVPixels
-  // public static short clip(short value){
-  //   if(value > MAXVALUE){
-  //     value = MAXVALUE;
-  //   }
-  //   else if(value < MINVALUE){
-  //     value = MINVALUE;
-  //   }
-  //   return value;
-  // }
+    color =                clip((298 * c           + 409 * e + 128) >> 8);
+    color = (color << 8) + clip((298 * c - 100 * d - 208 * e + 128) >> 8);
+    color = (color << 8) + clip((298 * c + 516 * d           + 128) >> 8);
+  }
+  */
+
+  // auxiliary function for constructor for YUVPixels
+  public static int clip(int value){
+    if(value > MAXVALUE){
+      value = MAXVALUE;
+    }
+    else if(value < MINVALUE){
+      value = MINVALUE;
+    }
+    return value;
+  }
+
+  public int getRGBValue(){
+    return color;
+  }
 
   public short getRed(){
     return (short)(color >> 16);
