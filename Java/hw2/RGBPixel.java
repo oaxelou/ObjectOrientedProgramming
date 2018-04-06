@@ -16,7 +16,6 @@ public class RGBPixel{
     this(pixel.getRed(), pixel.getGreen(), pixel.getBlue());
   }
 
-  /*
   public RGBPixel(YUVPixel pixel){
     int c = pixel.getY() -  16;
     int d = pixel.getU() - 128;
@@ -26,7 +25,6 @@ public class RGBPixel{
     color = (color << 8) + clip((298 * c - 100 * d - 208 * e + 128) >> 8);
     color = (color << 8) + clip((298 * c + 516 * d           + 128) >> 8);
   }
-  */
 
   // auxiliary function for constructor for YUVPixels
   public static int clip(int value){
@@ -73,5 +71,9 @@ public class RGBPixel{
   // AYTH DEN TH THELEI!!!!!!!!!! GIA DEBBUGING THN EVALA!!!!!!!
   public void printValue(){
     System.out.println(color);
+  }
+
+  public String toString(){
+    return getRed() + " " + getGreen() + " " + getBlue();
   }
 }

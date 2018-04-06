@@ -25,7 +25,6 @@ public class RGBImage /*implements Image*/{
     }
   }
 
-  /*
   public RGBImage(YUVImage YUVImg){
     pixels = new RGBPixel[YUVImg.pixels.length][YUVImg.pixels[0].length];
 
@@ -35,7 +34,6 @@ public class RGBImage /*implements Image*/{
       }
     }
   }
-  */
 
   public RGBPixel [][] getPixelsArray(){
     return pixels;
