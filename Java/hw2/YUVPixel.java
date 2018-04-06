@@ -19,9 +19,9 @@ public class YUVPixel{
 
   public YUVPixel(RGBPixel pixel){
 
-    Y = ( (  66 * pixel.getRed() + 129 * pixel.getGreen() +  25 * pixel.getBlue() + 128) >> 8) +  16;
-    U = ( ( -38 * pixel.getRed() -  74 * pixel.getGreen() + 112 * pixel.getBlue() + 128) >> 8) + 128;
-    V = ( ( 112 * pixel.getRed() -  94 * pixel.getGreen() -  18 * pixel.getBlue() + 128) >> 8) + 128;
+    Y = (short)(( (  66 * pixel.getRed() + 129 * pixel.getGreen() +  25 * pixel.getBlue() + 128) >> 8) +  16);
+    U = (short)(( ( -38 * pixel.getRed() -  74 * pixel.getGreen() + 112 * pixel.getBlue() + 128) >> 8) + 128);
+    V = (short)(( ( 112 * pixel.getRed() -  94 * pixel.getGreen() -  18 * pixel.getBlue() + 128) >> 8) + 128);
 
   }
 
@@ -48,6 +48,10 @@ public class YUVPixel{
 
   public void setV(short V){
     this.V = V;
+  }
+
+  public String toString(){
+    return(Y + " " + U + " " + V);
   }
 
   
