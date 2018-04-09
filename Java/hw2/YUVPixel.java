@@ -2,9 +2,9 @@
 
 public class YUVPixel{
 
-  private short Y;
-  private short U;
-  private short V;
+  private int Y;
+  private int U;
+  private int V;
 
 
   public YUVPixel(short Y, short U, short V){
@@ -27,27 +27,27 @@ public class YUVPixel{
 
 
   public short getY(){
-    return Y;
+    return (short)Y;
   }
 
   public short getU(){
-    return U;
+    return (short)U;
   }
 
   public short getV(){
-    return V;
+    return (short)V;
   }
 
   public void setY(short Y){
-    this.Y = Y;
+    this.Y = (int)Y;
   }
 
   public void setU(short U){
-    this.U = U;
+    this.U = (int)U;
   }
 
   public void setV(short V){
-    this.V = V;
+    this.V = (int)V;
   }
 
   public String toString(){
