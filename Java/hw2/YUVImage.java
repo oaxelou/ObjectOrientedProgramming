@@ -3,7 +3,7 @@
 import java.io.*;
 
 public class YUVImage /*implements Image*/{
-  protected YUVPixel [][] pixels; 
+  protected YUVPixel [][] pixels;
 
   private int width;
   private int height;
@@ -36,7 +36,7 @@ public class YUVImage /*implements Image*/{
     }
   }
 
-  
+
   public YUVImage(RGBImage RGBImg){
     pixels = new YUVPixel[RGBImg.pixels.length][RGBImg.pixels[0].length];
 
@@ -69,11 +69,11 @@ public class YUVImage /*implements Image*/{
   		}
 
   		width  = new Integer( transString );
-  		height = new Integer( transString.substring( transString.indexOf(" ") +1 ) ); 
+  		height = new Integer( transString.substring( transString.indexOf(" ") +1 ) );
 
 
   		pixels = new YUVPixel[height][width];
- 
+
   		while( ( transString = inputStream.readLine() ) != null ){
 
   			for(int i = 0; i < height; i++){
@@ -96,7 +96,7 @@ public class YUVImage /*implements Image*/{
 		System.out.println("IOException occured while reading from file ");
 	}
   }
-  
+
 
   public YUVPixel [][] getPixelsArray(){
     return pixels;
@@ -214,6 +214,18 @@ public class YUVImage /*implements Image*/{
 
   }
 
-}
+  public void equalize(){
+    // YUVImage equa
+    YUVPixel [][]newPixels = new YUVPixel[pixels.length][pixels[0].length];
+    Histogram hist = new Histogram(this);
 
-  
+    hist.equalize();
+    for(int i = 0 ; i < pixels.length; i++){
+      for(int j = 0; j < pixels[0].length; j++){
+        newPixels[i][j] = new YUVPixel(hist.getEqualizedLuminocity((int)pixels[i][j].getY()), pixels[i][j].getU(), pixels[i][j].getV());
+      }
+    }
+    pixels = newPixels;
+  }
+
+}
