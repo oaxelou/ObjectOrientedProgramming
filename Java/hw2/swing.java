@@ -62,6 +62,17 @@ public class swing extends JFrame implements ActionListener {
     }
   }
 
+  public void enableEditAndSave(){
+    PPMFileSave.setEnabled(true);
+    YUVFileSave.setEnabled(true);
+
+    Grayscale.setEnabled(true);
+    IncreaseSize.setEnabled(true);
+    DecreaseSize.setEnabled(true);
+    RotClockWise.setEnabled(true);
+    EqualHist.setEnabled(true);
+  }
+
   public void createFileMenu(){
     FileMenu = new JMenu("File");
 
@@ -81,10 +92,12 @@ public class swing extends JFrame implements ActionListener {
 
     PPMFileSave = new JMenuItem("PPM File");
     PPMFileSave.addActionListener(this);
+    PPMFileSave.setEnabled(false);
     SaveMenu.add(PPMFileSave);
 
     YUVFileSave = new JMenuItem("YUV File");
     YUVFileSave.addActionListener(this);
+    YUVFileSave.setEnabled(false);
     SaveMenu.add(YUVFileSave);
   }
 
@@ -93,22 +106,27 @@ public class swing extends JFrame implements ActionListener {
 
     Grayscale = new JMenuItem("Grayscale");
     Grayscale.addActionListener(this);
+    Grayscale.setEnabled(false);
     ActionsMenu.add(Grayscale);
 
     IncreaseSize = new JMenuItem("Increase Size");
     IncreaseSize.addActionListener(this);
+    IncreaseSize.setEnabled(false);
     ActionsMenu.add(IncreaseSize);
 
     DecreaseSize = new JMenuItem("Decrease Size");
     DecreaseSize.addActionListener(this);
+    DecreaseSize.setEnabled(false);
     ActionsMenu.add(DecreaseSize);
 
     RotClockWise = new JMenuItem("Rotate Clockwise");
     RotClockWise.addActionListener(this);
+    RotClockWise.setEnabled(false);
     ActionsMenu.add(RotClockWise);
 
     EqualHist = new JMenuItem("Equalize Histogram");
     EqualHist.addActionListener(this);
+    EqualHist.setEnabled(false);
     ActionsMenu.add(EqualHist);
 
     StackingAlg = new JMenu("Stacking Algorithm");
@@ -153,6 +171,7 @@ public class swing extends JFrame implements ActionListener {
       if(returnVal == JFileChooser.APPROVE_OPTION){
         //change background picture with fc.getSelectedFile()
         getPPMfromFile(fc.getSelectedFile());
+        enableEditAndSave();
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
         System.out.println("File chooser open dialog cancelled by user");
       } else{
@@ -167,6 +186,7 @@ public class swing extends JFrame implements ActionListener {
       if(returnVal == JFileChooser.APPROVE_OPTION){
         //change background picture with fc.getSelectedFile()
         getYUVfromFile(fc.getSelectedFile());
+        enableEditAndSave();
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
         System.out.println("File chooser open dialog cancelled by user");
       } else{
