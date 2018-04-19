@@ -29,7 +29,9 @@ public class PPMImage extends RGBImage{
       super.pixels = new RGBPixel[width][height];
       for(int i = 0 ; i < super.pixels.length; i++){
         for(int j = 0; j < super.pixels[0].length; j++){
-          super.pixels[i][j] = new RGBPixel(fsc.nextShort(), fsc.nextShort(), fsc.nextShort());
+          super.pixels[i][j] = new RGBPixel(fsc.nextShort(),
+                                            fsc.nextShort(),
+                                            fsc.nextShort());
         }
       }
 
