@@ -42,10 +42,14 @@ public class YUVImage /*implements Image*/{
 
 
   public YUVImage(RGBImage RGBImg){
-    pixels = new YUVPixel[RGBImg.pixels.length][RGBImg.pixels[0].length];
 
-    for(int i = 0 ; i < RGBImg.pixels.length; i++){
-      for(int j = 0; j < RGBImg.pixels[0].length; j++){
+    height = RGBImg.pixels.length;
+    width = RGBImg.pixels[0].length;
+
+    pixels = new YUVPixel[height][width];
+
+    for(int i = 0 ; i < height; i++){
+      for(int j = 0; j < width; j++){
         pixels[i][j] = new YUVPixel(RGBImg.pixels[i][j]);
       }
     }
@@ -58,6 +62,8 @@ public class YUVImage /*implements Image*/{
   	int Y,U,V;
 
   	String transString;
+
+    String[] Numbers;
 
   	try{
   		inputStream = new BufferedReader(new FileReader(file));
@@ -72,28 +78,29 @@ public class YUVImage /*implements Image*/{
   			throw new UnsupportedFileFormatException();
   		}
 
-  		width  = new Integer( transString );
-  		height = new Integer( transString.substring( transString.indexOf(" ") +1 ) );
-
+      Numbers = transString.split(" ");
+  		width  = new Integer( Numbers[0] );
+  		height = new Integer( Numbers[1] );      
 
   		pixels = new YUVPixel[height][width];
 
-  		while( ( transString = inputStream.readLine() ) != null ){
 
   			for(int i = 0; i < height; i++){
   				for(int j =0 ; j < width; j++){
 
-  					Y = new Integer( transString );
-  					U = new Integer( transString.substring( transString.indexOf(" ") +1 ) );
-  					V = new Integer( transString.substring( transString.indexOf(" ") +1 ).substring( transString.indexOf(" ") +1 ) );
+            transString = inputStream.readLine();
+
+            Numbers = transString.split(" ");
+
+  					Y = new Integer( Numbers[0] );
+  					U = new Integer( Numbers[1] );
+  					V = new Integer( Numbers[2] );
+
+            //System.out.println("Height: " + height + " Width " + width + " i,j " + i + "," + j + " Y,U,V " + Y+ " " + U + " " + V);
 
   					pixels[i][j] = new YUVPixel( (short)Y, (short)U, (short)V );
   				}
   			}
-
-  		}
-
-
 
   	}
   	catch(IOException ex) {
