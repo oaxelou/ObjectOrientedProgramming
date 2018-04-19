@@ -155,10 +155,13 @@ public class swing extends JFrame implements ActionListener {
     FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "ppm", "yuv");
     fc.setFileFilter(filter);
 
+    ImgLabel = new JLabel();
+    ImgLabel.setSize(WIDTH*2, HEIGHT*3);
+    getContentPane().add(ImgLabel, BorderLayout.CENTER);
+
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     setJMenuBar(createJMenuBar());
-    ImgLabel = new JLabel();
     pack();
   }
 
@@ -171,8 +174,8 @@ public class swing extends JFrame implements ActionListener {
       fc.setFileFilter(filter);
       int returnVal = fc.showOpenDialog(swing.this);
       if(returnVal == JFileChooser.APPROVE_OPTION){
-        //change background picture with fc.getSelectedFile()
         getPPMfromFile(fc.getSelectedFile());
+        changeBackground();
         enableEditAndSave();
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
         System.out.println("File chooser open dialog cancelled by user");
@@ -186,8 +189,8 @@ public class swing extends JFrame implements ActionListener {
       fc.setFileFilter(filter);
       int returnVal = fc.showOpenDialog(swing.this);
       if(returnVal == JFileChooser.APPROVE_OPTION){
-        //change background picture with fc.getSelectedFile()
         getYUVfromFile(fc.getSelectedFile());
+        changeBackground();
         enableEditAndSave();
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
         System.out.println("File chooser open dialog cancelled by user");
@@ -195,6 +198,7 @@ public class swing extends JFrame implements ActionListener {
         System.err.println("Error occured with file chooser!");
         System.exit(1);
       }
+
     }else if(e.getSource().equals(PPMFileSave)){
       System.out.println("Pressed PPMFileSave!");
 
@@ -221,7 +225,7 @@ public class swing extends JFrame implements ActionListener {
       if(ppmCurrImg != null){
         System.out.println("In grayscale!");
         ppmCurrImg.grayscale();
-        // edw allagh tou background me thn eikona!
+        changeBackground();
         yuvCurrImg = new YUVImage(ppmCurrImg);
       }
     }else if(e.getSource().equals(IncreaseSize)){
@@ -230,7 +234,7 @@ public class swing extends JFrame implements ActionListener {
       if(ppmCurrImg != null){
         System.out.println("In increase size!");
         ppmCurrImg.doublesize();
-        // edw allagh tou background me thn eikona!
+        changeBackground();
         yuvCurrImg = new YUVImage(ppmCurrImg);
       }
     }else if(e.getSource().equals(DecreaseSize)){
@@ -238,7 +242,7 @@ public class swing extends JFrame implements ActionListener {
 
       if(ppmCurrImg != null){
         ppmCurrImg.halfsize();
-        // edw allagh tou background me thn eikona!
+        changeBackground();
         yuvCurrImg = new YUVImage(ppmCurrImg);
       }
     }else if(e.getSource().equals(RotClockWise)){
@@ -246,7 +250,7 @@ public class swing extends JFrame implements ActionListener {
 
       if(ppmCurrImg != null){
         ppmCurrImg.rotateClockwise();
-        // edw allagh tou background me thn eikona!
+        changeBackground();
         yuvCurrImg = new YUVImage(ppmCurrImg);
       }
     }else if(e.getSource().equals(EqualHist)){
@@ -255,7 +259,7 @@ public class swing extends JFrame implements ActionListener {
       if(yuvCurrImg != null){
         yuvCurrImg.equalize();
         ppmCurrImg = new PPMImage(yuvCurrImg);
-        // edw allagh tou background me thn eikona!
+        changeBackground();
       }
     }else if(e.getSource().equals(SelectDir)){
       System.out.println("Pressed select directory!");
@@ -269,7 +273,7 @@ public class swing extends JFrame implements ActionListener {
             PPMImageStacker stacker = new PPMImageStacker(fc.getSelectedFile());
             stacker.stack();
             ppmCurrImg = stacker.getStackedImage();
-            // change background image;
+            changeBackground();
             enableEditAndSave();
             yuvCurrImg = new YUVImage(ppmCurrImg);
           } catch(FileNotFoundException ex) {
@@ -305,7 +309,7 @@ public class swing extends JFrame implements ActionListener {
     height = ppmCurrImg.getHeight();
     width  = ppmCurrImg.getWidth();
 
-    currBufferedImg = new BufferedImage(width, height, TYPE_INT_RGB);
+    currBufferedImg = new BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_RGB);
 
     for(int i=0; i < height; i++){
       for(int j=0; j < width; j++){
@@ -318,8 +322,8 @@ public class swing extends JFrame implements ActionListener {
 
     currIcon = new ImageIcon(currBufferedImg);
 
+    setSize(width, height);
     ImgLabel.setIcon(currIcon);
-
     
   }
 
