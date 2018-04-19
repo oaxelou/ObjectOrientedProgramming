@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import javax.swing.filechooser.*;
+
 
 // Etoimos kwdikas gia to menu kai to background me thn eikona
 // apo: MenuDemo.java, MenuLookDemo.java
@@ -15,6 +17,7 @@ public class swing extends JFrame implements ActionListener {
 
   private JPanel ImgPanel;
   private JLabel ImgLabel;
+  private JFileChooser fc;
 
   private JMenu FileMenu, SaveMenu, OpenMenu;
   private JMenu ActionsMenu, StackingAlg;
@@ -26,6 +29,37 @@ public class swing extends JFrame implements ActionListener {
   public static void main(String args[]) {
     swing gui = new swing();
     gui.setVisible(true);
+  }
+
+  public void getPPMfromFile(File f){
+    try{
+      ppmCurrImg = new PPMImage(f);
+      System.out.println("New ppm: " + ppmCurrImg.pixels.length + " x " + ppmCurrImg.pixels[0].length);
+      // edw na kaloume kapoia sunarthsh pou na allazei thn eikona tou background
+      yuvCurrImg = new YUVImage(ppmCurrImg);
+
+    }catch(FileNotFoundException ex){
+      System.err.println("File not found exception");
+      System.exit(1);
+    }catch(UnsupportedFileFormatException ex){
+      System.err.println("Not ppm file");
+      System.exit(1);
+    }
+  }
+
+  public void getYUVfromFile(File f){
+    try{
+      yuvCurrImg = new YUVImage(f);
+      ppmCurrImg = new PPMImage(yuvCurrImg);
+      System.out.println("New yuv: " + yuvCurrImg.pixels.length + " x " + yuvCurrImg.pixels[0].length);
+      // edw na kaloume kapoia sunarthsh pou na allazei thn eikona tou background
+    }catch(FileNotFoundException ex){
+      System.err.println("File not found exception");
+      System.exit(1);
+    }catch(UnsupportedFileFormatException ex){
+      System.err.println("Not ppm file");
+      System.exit(1);
+    }
   }
 
   public void createFileMenu(){
@@ -98,6 +132,10 @@ public class swing extends JFrame implements ActionListener {
     super("ce325 - hw2: Image Processing");
     setSize(WIDTH, HEIGHT);
 
+    fc = new JFileChooser(System.getProperty("."));
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "ppm", "yuv");
+    fc.setFileFilter(filter);
+
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     setJMenuBar(createJMenuBar());
@@ -109,14 +147,61 @@ public class swing extends JFrame implements ActionListener {
 
     if(e.getSource().equals(PPMFileOpen) ) {
       System.out.println("PPMFileOpen pressed!");
+      FileNameExtensionFilter filter = new FileNameExtensionFilter("ppm Files", "ppm");
+      fc.setFileFilter(filter);
+      int returnVal = fc.showOpenDialog(swing.this);
+      if(returnVal == JFileChooser.APPROVE_OPTION){
+        //change background picture with fc.getSelectedFile()
+        getPPMfromFile(fc.getSelectedFile());
+      } else if(returnVal == JFileChooser.CANCEL_OPTION){
+        System.out.println("File chooser open dialog cancelled by user");
+      } else{
+        System.err.println("Error occured with file chooser!");
+        System.exit(1);
+      }
     }else if(e.getSource().equals(YUVFileOpen)){
       System.out.println("Pressed YUVFileOpen!");
+      FileNameExtensionFilter filter = new FileNameExtensionFilter("yuv Files", "yuv");
+      fc.setFileFilter(filter);
+      int returnVal = fc.showOpenDialog(swing.this);
+      if(returnVal == JFileChooser.APPROVE_OPTION){
+        //change background picture with fc.getSelectedFile()
+        getYUVfromFile(fc.getSelectedFile());
+      } else if(returnVal == JFileChooser.CANCEL_OPTION){
+        System.out.println("File chooser open dialog cancelled by user");
+      } else{
+        System.err.println("Error occured with file chooser!");
+        System.exit(1);
+      }
     }else if(e.getSource().equals(PPMFileSave)){
       System.out.println("Pressed PPMFileSave!");
+
+      if(ppmCurrImg != null){
+        System.out.println("In save ppm!");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("ppm Files", "ppm");
+        fc.setFileFilter(filter);
+        int returnVal = fc.showSaveDialog(swing.this);
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+          //change background picture with fc.getSelectedFile()
+          ppmCurrImg.toFile(fc.getSelectedFile());
+        } else if(returnVal == JFileChooser.CANCEL_OPTION){
+          System.out.println("File chooser open dialog cancelled by user");
+        } else{
+          System.err.println("Error occured with file chooser!");
+          System.exit(1);
+        }
+      }
     }else if(e.getSource().equals(YUVFileSave)){
       System.out.println("Pressed YUVFileSave!");
     }else if(e.getSource().equals(Grayscale)){
       System.out.println("Pressed Grayscale!");
+
+      if(ppmCurrImg != null){
+        System.out.println("In grayscale!");
+        ppmCurrImg.grayscale();
+        // edw allagh tou background me thn eikona!
+        yuvCurrImg = new YUVImage(ppmCurrImg);
+      }
     }else if(e.getSource().equals(IncreaseSize)){
       System.out.println("Pressed Increase Size!");
     }else if(e.getSource().equals(DecreaseSize)){
