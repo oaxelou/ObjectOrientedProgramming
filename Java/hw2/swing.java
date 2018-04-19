@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import java.io.*;
 import javax.swing.filechooser.*;
 
@@ -157,6 +158,7 @@ public class swing extends JFrame implements ActionListener {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     setJMenuBar(createJMenuBar());
+    ImgLabel = new JLabel();
     pack();
   }
 
@@ -285,4 +287,42 @@ public class swing extends JFrame implements ActionListener {
       System.out.println("None of the above. Something is wrong!");
     }
   }
+
+  void changeBackground(){
+
+    BufferedImage currBufferedImg;
+    Icon currIcon;
+
+    int height, width;
+
+    boolean ppmWasNull = false;
+
+    if(ppmCurrImg == null){
+      ppmCurrImg = new PPMImage(yuvCurrImg);
+      ppmWasNull = true;
+    }
+
+    height = ppmCurrImg.getHeight();
+    width  = ppmCurrImg.getWidth();
+
+    currBufferedImg = new BufferedImage(width, height, TYPE_INT_RGB);
+
+    for(int i=0; i < height; i++){
+      for(int j=0; j < width; j++){
+        currBufferedImg.setRGB(j, i, ppmCurrImg.getPixelsArray()[i][j].getRGBValue());
+      }
+    }
+
+    if(ppmWasNull)
+      ppmCurrImg = null;
+
+    currIcon = new ImageIcon(currBufferedImg);
+
+    ImgLabel.setIcon(currIcon);
+
+    
+  }
+
+
+
 }
