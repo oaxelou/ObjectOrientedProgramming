@@ -9,20 +9,10 @@ public class PPMImageStacker{
 
 	PPMImage finalImage;
 
-	public PPMImageStacker(java.io.File dir){
+	public PPMImageStacker(java.io.File dir) throws FileNotFoundException, UnsupportedFileFormatException {
 
 		File [] fileTable;
 		PPMImage temp;
-
-		if( !dir.exists() ){
-			System.out.println("[ERROR] Directory "+ dir +" does not exist!");
-			return;
-		}
-
-		if( !dir.isDirectory() ){
-			System.out.println("[ERROR] "+ dir +" is not a directory!");
-			return;
-		}
 
 		fileTable = dir.listFiles();
 

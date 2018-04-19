@@ -51,7 +51,7 @@ public class YUVPixel{
   }
 
   public String toString(){
-    return(Y + " " + U + " " + V);
+    return(Y + " " + U + " " + V + "\n");
   }
 
   

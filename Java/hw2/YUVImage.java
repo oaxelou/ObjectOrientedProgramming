@@ -13,6 +13,10 @@ public class YUVImage /*implements Image*/{
   }
 
   public YUVImage(int width, int height){
+    
+    this.height = height;
+    this.width  = width;
+
     pixels = new YUVPixel[height][width];
     for(int i = 0 ; i < height; i++){
       for(int j = 0; j < width; j++){
@@ -168,7 +172,7 @@ public class YUVImage /*implements Image*/{
     StrBuff.append(width + " " + height + "\n");
 
     for(int i = 0; i < height; i++){
-      for(int j = 0; j < height; j++){
+      for(int j = 0; j < width; j++){
         StrBuff.append( pixels[i][j].toString() );
       }
     }
@@ -179,39 +183,12 @@ public class YUVImage /*implements Image*/{
 
   public void toFile(java.io.File file){
 
-  	PrintWriter outputStream;
-
-  	int Y,U,V;
-
-  	String transString;
-
-  	try{
-
-  		if(file.exists()){
-  			if(file.delete() == false){
-  				throw new IOException();
-  			}
-  			file.createNewFile();
-  		}
-
-  		outputStream = new PrintWriter( file );
-
-  		outputStream.println("YUV3");
-  		outputStream.println(width +" "+ height);
-
-  		for(int i =0; i <height; i++){
-  			for(int j=0; j <width; j++){
-  				outputStream.println(pixels[i][j].getY() + " " + pixels[i][j].getU() + " " + pixels[i][j].getV());
-  			}
-  		}
-
-
-
-  	}
-  	catch(IOException ex) {
-		System.out.println("IOException occured while writing to file ");
-	}
-
+  	try (FileWriter fWriter = new FileWriter(file, false)) {
+      fWriter.write(toString());
+    }catch(IOException ex){
+      System.err.println("Something went wrong with FileWriter");
+      System.exit(1);
+    }
   }
 
   public void equalize(){
