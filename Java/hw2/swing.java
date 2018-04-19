@@ -224,14 +224,63 @@ public class swing extends JFrame implements ActionListener {
       }
     }else if(e.getSource().equals(IncreaseSize)){
       System.out.println("Pressed Increase Size!");
+
+      if(ppmCurrImg != null){
+        System.out.println("In increase size!");
+        ppmCurrImg.doublesize();
+        // edw allagh tou background me thn eikona!
+        yuvCurrImg = new YUVImage(ppmCurrImg);
+      }
     }else if(e.getSource().equals(DecreaseSize)){
       System.out.println("Pressed Decrease Size!");
+
+      if(ppmCurrImg != null){
+        ppmCurrImg.halfsize();
+        // edw allagh tou background me thn eikona!
+        yuvCurrImg = new YUVImage(ppmCurrImg);
+      }
     }else if(e.getSource().equals(RotClockWise)){
       System.out.println("Pressed Rotate Clockwise!");
+
+      if(ppmCurrImg != null){
+        ppmCurrImg.rotateClockwise();
+        // edw allagh tou background me thn eikona!
+        yuvCurrImg = new YUVImage(ppmCurrImg);
+      }
     }else if(e.getSource().equals(EqualHist)){
       System.out.println("Pressed equlaize histogram!");
+
+      if(yuvCurrImg != null){
+        yuvCurrImg.equalize();
+        ppmCurrImg = new PPMImage(yuvCurrImg);
+        // edw allagh tou background me thn eikona!
+      }
     }else if(e.getSource().equals(SelectDir)){
       System.out.println("Pressed select directory!");
+      fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+      FileNameExtensionFilter filter = new FileNameExtensionFilter("Directories", "*");
+      fc.setFileFilter(filter);
+      int returnVal = fc.showOpenDialog(swing.this);
+      if(returnVal == JFileChooser.APPROVE_OPTION){
+        //change background picture with fc.getSelectedFile()
+        try {
+            PPMImageStacker stacker = new PPMImageStacker(fc.getSelectedFile());
+            stacker.stack();
+            ppmCurrImg = stacker.getStackedImage();
+            // change background image;
+            enableEditAndSave();
+            yuvCurrImg = new YUVImage(ppmCurrImg);
+          } catch(FileNotFoundException ex) {
+            System.out.println("ERROR :"+ex.getMessage());
+          } catch(UnsupportedFileFormatException ex) {
+            System.out.println("ERROR :"+ex.getMessage());
+          }
+      } else if(returnVal == JFileChooser.CANCEL_OPTION){
+        System.out.println("File chooser open dialog cancelled by user");
+      } else{
+        System.err.println("Error occured with file chooser!");
+        System.exit(1);
+      }
     }else{
       System.out.println("None of the above. Something is wrong!");
     }
