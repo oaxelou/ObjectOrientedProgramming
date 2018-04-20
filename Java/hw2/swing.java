@@ -35,8 +35,6 @@ public class swing extends JFrame implements ActionListener {
   public void getPPMfromFile(File f){
     try{
       ppmCurrImg = new PPMImage(f);
-      System.out.println("New ppm: " + ppmCurrImg.pixels.length + " x " + ppmCurrImg.pixels[0].length);
-      // edw na kaloume kapoia sunarthsh pou na allazei thn eikona tou background
       yuvCurrImg = new YUVImage(ppmCurrImg);
 
     }catch(FileNotFoundException ex){
@@ -52,8 +50,6 @@ public class swing extends JFrame implements ActionListener {
     try{
       yuvCurrImg = new YUVImage(f);
       ppmCurrImg = new PPMImage(yuvCurrImg);
-      System.out.println("New yuv: " + yuvCurrImg.pixels.length + " x " + yuvCurrImg.pixels[0].length);
-      // edw na kaloume kapoia sunarthsh pou na allazei thn eikona tou background
     }catch(FileNotFoundException ex){
       System.err.println("File not found exception");
       System.exit(1);
@@ -147,6 +143,41 @@ public class swing extends JFrame implements ActionListener {
     return bar;
   }
 
+  void changeBackground(){
+
+    BufferedImage currBufferedImg;
+    Icon currIcon;
+
+    int height, width;
+
+    boolean ppmWasNull = false;
+
+    if(ppmCurrImg == null){
+      ppmCurrImg = new PPMImage(yuvCurrImg);
+      ppmWasNull = true;
+    }
+
+    height = ppmCurrImg.pixels.length;
+    width  = ppmCurrImg.pixels[0].length;
+
+    currBufferedImg = new BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_RGB);
+
+    for(int i=0; i < height; i++){
+      for(int j=0; j < width; j++){
+        currBufferedImg.setRGB(j, i, ppmCurrImg.getPixelsArray()[i][j].getRGBValue());
+      }
+    }
+
+    if(ppmWasNull)
+      ppmCurrImg = null;
+
+    currIcon = new ImageIcon(currBufferedImg);
+
+    setSize(width, height);
+    ImgLabel.setIcon(currIcon);
+
+  }
+
   public swing() {
     super("ce325 - hw2: Image Processing");
     setSize(WIDTH, HEIGHT);
@@ -169,7 +200,6 @@ public class swing extends JFrame implements ActionListener {
     String menuString = e.getActionCommand();
 
     if(e.getSource().equals(PPMFileOpen) ) {
-      System.out.println("PPMFileOpen pressed!");
       FileNameExtensionFilter filter = new FileNameExtensionFilter("ppm Files", "ppm");
       fc.setFileFilter(filter);
       int returnVal = fc.showOpenDialog(swing.this);
@@ -178,13 +208,12 @@ public class swing extends JFrame implements ActionListener {
         changeBackground();
         enableEditAndSave();
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
-        System.out.println("File chooser open dialog cancelled by user");
+        // File chooser open dialog cancelled by user
       } else{
         System.err.println("Error occured with file chooser!");
         System.exit(1);
       }
     }else if(e.getSource().equals(YUVFileOpen)){
-      System.out.println("Pressed YUVFileOpen!");
       FileNameExtensionFilter filter = new FileNameExtensionFilter("yuv Files", "yuv");
       fc.setFileFilter(filter);
       int returnVal = fc.showOpenDialog(swing.this);
@@ -193,17 +222,14 @@ public class swing extends JFrame implements ActionListener {
         changeBackground();
         enableEditAndSave();
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
-        System.out.println("File chooser open dialog cancelled by user");
+        // File chooser open dialog cancelled by user
       } else{
         System.err.println("Error occured with file chooser!");
         System.exit(1);
       }
 
     }else if(e.getSource().equals(PPMFileSave)){
-      System.out.println("Pressed PPMFileSave!");
-
       if(ppmCurrImg != null){
-        System.out.println("In save ppm!");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("ppm Files", "ppm");
         fc.setFileFilter(filter);
         int returnVal = fc.showSaveDialog(swing.this);
@@ -211,58 +237,58 @@ public class swing extends JFrame implements ActionListener {
           //change background picture with fc.getSelectedFile()
           ppmCurrImg.toFile(fc.getSelectedFile());
         } else if(returnVal == JFileChooser.CANCEL_OPTION){
-          System.out.println("File chooser open dialog cancelled by user");
+          // File chooser open dialog cancelled by user
         } else{
           System.err.println("Error occured with file chooser!");
           System.exit(1);
         }
       }
     }else if(e.getSource().equals(YUVFileSave)){
-      System.out.println("Pressed YUVFileSave!");
+      if(yuvCurrImg != null){
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("yuv Files", "yuv");
+        fc.setFileFilter(filter);
+        int returnVal = fc.showSaveDialog(swing.this);
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+          //change background picture with fc.getSelectedFile()
+          yuvCurrImg.toFile(fc.getSelectedFile());
+        } else if(returnVal == JFileChooser.CANCEL_OPTION){
+          // File chooser open dialog cancelled by user
+        } else{
+          System.err.println("Error occured with file chooser!");
+          System.exit(1);
+        }
+      }
     }else if(e.getSource().equals(Grayscale)){
-      System.out.println("Pressed Grayscale!");
-
       if(ppmCurrImg != null){
-        System.out.println("In grayscale!");
         ppmCurrImg.grayscale();
         changeBackground();
         yuvCurrImg = new YUVImage(ppmCurrImg);
       }
     }else if(e.getSource().equals(IncreaseSize)){
-      System.out.println("Pressed Increase Size!");
-
       if(ppmCurrImg != null){
-        System.out.println("In increase size!");
         ppmCurrImg.doublesize();
         changeBackground();
         yuvCurrImg = new YUVImage(ppmCurrImg);
       }
     }else if(e.getSource().equals(DecreaseSize)){
-      System.out.println("Pressed Decrease Size!");
-
       if(ppmCurrImg != null){
         ppmCurrImg.halfsize();
         changeBackground();
         yuvCurrImg = new YUVImage(ppmCurrImg);
       }
     }else if(e.getSource().equals(RotClockWise)){
-      System.out.println("Pressed Rotate Clockwise!");
-
       if(ppmCurrImg != null){
         ppmCurrImg.rotateClockwise();
         changeBackground();
         yuvCurrImg = new YUVImage(ppmCurrImg);
       }
     }else if(e.getSource().equals(EqualHist)){
-      System.out.println("Pressed equlaize histogram!");
-
       if(yuvCurrImg != null){
         yuvCurrImg.equalize();
         ppmCurrImg = new PPMImage(yuvCurrImg);
         changeBackground();
       }
     }else if(e.getSource().equals(SelectDir)){
-      System.out.println("Pressed select directory!");
       fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
       FileNameExtensionFilter filter = new FileNameExtensionFilter("Directories", "*");
       fc.setFileFilter(filter);
@@ -282,7 +308,7 @@ public class swing extends JFrame implements ActionListener {
             System.out.println("ERROR :"+ex.getMessage());
           }
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
-        System.out.println("File chooser open dialog cancelled by user");
+        // File chooser open dialog cancelled by user
       } else{
         System.err.println("Error occured with file chooser!");
         System.exit(1);
@@ -291,42 +317,4 @@ public class swing extends JFrame implements ActionListener {
       System.out.println("None of the above. Something is wrong!");
     }
   }
-
-  void changeBackground(){
-
-    BufferedImage currBufferedImg;
-    Icon currIcon;
-
-    int height, width;
-
-    boolean ppmWasNull = false;
-
-    if(ppmCurrImg == null){
-      ppmCurrImg = new PPMImage(yuvCurrImg);
-      ppmWasNull = true;
-    }
-
-    height = ppmCurrImg.getHeight();
-    width  = ppmCurrImg.getWidth();
-
-    currBufferedImg = new BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_RGB);
-
-    for(int i=0; i < height; i++){
-      for(int j=0; j < width; j++){
-        currBufferedImg.setRGB(j, i, ppmCurrImg.getPixelsArray()[i][j].getRGBValue());
-      }
-    }
-
-    if(ppmWasNull)
-      ppmCurrImg = null;
-
-    currIcon = new ImageIcon(currBufferedImg);
-
-    setSize(width, height);
-    ImgLabel.setIcon(currIcon);
-    
-  }
-
-
-
 }
