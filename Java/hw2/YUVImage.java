@@ -2,7 +2,7 @@
 
 import java.io.*;
 
-public class YUVImage /*implements Image*/{
+public class YUVImage implements Image{
   protected YUVPixel [][] pixels;
 
   private int width;
@@ -13,7 +13,7 @@ public class YUVImage /*implements Image*/{
   }
 
   public YUVImage(int width, int height){
-    
+
     this.height = height;
     this.width  = width;
 
@@ -80,7 +80,7 @@ public class YUVImage /*implements Image*/{
 
       Numbers = transString.split(" ");
   		width  = new Integer( Numbers[0] );
-  		height = new Integer( Numbers[1] );      
+  		height = new Integer( Numbers[1] );
 
   		pixels = new YUVPixel[height][width];
 
@@ -166,6 +166,17 @@ public class YUVImage /*implements Image*/{
         V = (short)((int)V / 4);
 
         newPixels[i][j] = new YUVPixel(Y, U, V);
+      }
+    }
+    pixels = newPixels;
+  }
+
+  public void rotateClockwise(){
+    YUVPixel [][]newPixels = new YUVPixel[pixels[0].length][pixels.length];
+
+    for(int i = 0; i < pixels.length; i++){
+      for(int j = 0; j < pixels[0].length; j++){
+        newPixels[j][pixels.length - 1 - i] = pixels[i][j];
       }
     }
     pixels = newPixels;

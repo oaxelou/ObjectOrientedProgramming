@@ -1,6 +1,6 @@
 // package ce325.hw2;
 
-public class RGBImage /*implements Image*/{
+public class RGBImage implements Image{
   protected RGBPixel [][] pixels; // den leei pouthena oti prepei na einai private
                                   // opws o int me to xrwma tou RGBPixel
   public RGBImage(){
