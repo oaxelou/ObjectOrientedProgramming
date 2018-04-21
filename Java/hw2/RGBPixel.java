@@ -59,18 +59,13 @@ public class RGBPixel{
   }
 
   public void setGreen(short green){
-    color = color & (16711680 + 255); // ta bytes twn red kai blue
+    color = color & (16711680 + 255); // the bytes of red and blue
     color = color + ((int) green << 8);
   }
 
   public void setBlue(short blue){
-    color = color & (16711680 + 65280); // ta bytes twn red kai green
+    color = color & (16711680 + 65280); // the bytes of red and green
     color = color + (int) blue;
-  }
-
-  // AYTH DEN TH THELEI!!!!!!!!!! GIA DEBBUGING THN EVALA!!!!!!!
-  public void printValue(){
-    System.out.println(color);
   }
 
   public String toString(){

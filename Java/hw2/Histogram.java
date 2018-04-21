@@ -7,7 +7,7 @@ public class Histogram{
   int noPixels;
 
   public Histogram(YUVImage img){
-    // dhmiourgei to istogramma ths eikona yuv
+    // creates the histogram of the yuv image
     short maxLum = img.pixels[0][0].getY();
 
     noPixels = img.pixels.length * img.pixels[0].length;
@@ -28,12 +28,11 @@ public class Histogram{
     }
   }
 
+  /* Returns the histogram as a String
+   * Each line includes:
+   * the value of luminocity with stars * (max 80 stars per line) */
   public String toString(){
     String str = "";
-    //ektupwnei to istogramma se ena string
-    // kathe grammh periexei:
-    // thn timh ths fwteinothtas kai tosa * oso einai h timh auth
-    // (kanonikopoihsh sta 80 asterakia ws max!)
     for(int i = 0; i < histogram.length; i++){
       str += i + ": ";
       for(int j = 0; j < histogram[i] && j < 80; j++){
@@ -44,13 +43,10 @@ public class Histogram{
     return str;
   }
 
-  // ektupwnei to string ths methodou se ena arxeio
+  // saves the return value of toString in a file
   public void toFile(File file)throws FileNotFoundException, SecurityException{
-    // kalei thn toString
     try (PrintWriter fWriter = new PrintWriter(file)) {
-      // System.out.println("before");
       fWriter.println(toString());
-      // System.out.println("after");
     }catch(FileNotFoundException ex){
       System.err.println("histogr: File was not found! in toFile");
       throw new FileNotFoundException("histogr: In toFile: file was not found!");
@@ -62,7 +58,7 @@ public class Histogram{
   public void equalize(){
     int sumLum = 0;
     int maxLum = histogram.length - 1;
-    // eksisoropei to istogramma
+    // equalizes histogram
     for(int i = 0; i < histogram.length; i++){
       sumLum += histogram[i];
       histogram[i] = (sumLum * maxLum) / noPixels;
@@ -70,8 +66,7 @@ public class Histogram{
   }
 
   public short getEqualizedLuminocity(int luminocity){
-    // epistrefei thn eksisorophmenh timh fwteinothtas pou antistoixei
-    // shtn dotheisa luminocity
+    // returns the equalized value of luminocity
     return (short)histogram[luminocity];
   }
 }

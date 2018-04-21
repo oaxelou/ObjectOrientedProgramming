@@ -5,10 +5,6 @@ import java.awt.image.*;
 import java.io.*;
 import javax.swing.filechooser.*;
 
-
-// Etoimos kwdikas gia to menu kai to background me thn eikona
-// apo: MenuDemo.java, MenuLookDemo.java
-
 public class swing extends JFrame implements ActionListener {
   public static final int WIDTH = 400;
   public static final int HEIGHT = 250;
@@ -234,7 +230,6 @@ public class swing extends JFrame implements ActionListener {
         fc.setFileFilter(filter);
         int returnVal = fc.showSaveDialog(swing.this);
         if(returnVal == JFileChooser.APPROVE_OPTION){
-          //change background picture with fc.getSelectedFile()
           ppmCurrImg.toFile(fc.getSelectedFile());
         } else if(returnVal == JFileChooser.CANCEL_OPTION){
           // File chooser open dialog cancelled by user
@@ -249,7 +244,6 @@ public class swing extends JFrame implements ActionListener {
         fc.setFileFilter(filter);
         int returnVal = fc.showSaveDialog(swing.this);
         if(returnVal == JFileChooser.APPROVE_OPTION){
-          //change background picture with fc.getSelectedFile()
           yuvCurrImg.toFile(fc.getSelectedFile());
         } else if(returnVal == JFileChooser.CANCEL_OPTION){
           // File chooser open dialog cancelled by user
@@ -294,7 +288,6 @@ public class swing extends JFrame implements ActionListener {
       fc.setFileFilter(filter);
       int returnVal = fc.showOpenDialog(swing.this);
       if(returnVal == JFileChooser.APPROVE_OPTION){
-        //change background picture with fc.getSelectedFile()
         try {
             PPMImageStacker stacker = new PPMImageStacker(fc.getSelectedFile());
             stacker.stack();

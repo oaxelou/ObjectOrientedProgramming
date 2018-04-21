@@ -1,8 +1,8 @@
 // package ce325.hw2;
 
 public class RGBImage implements Image{
-  protected RGBPixel [][] pixels; // den leei pouthena oti prepei na einai private
-                                  // opws o int me to xrwma tou RGBPixel
+  protected RGBPixel [][] pixels;
+
   public RGBImage(){
     pixels = null;
   }
@@ -47,7 +47,9 @@ public class RGBImage implements Image{
   public void grayscale(){
     for(int i = 0; i < pixels.length; i++){
       for(int j = 0; j < pixels[0].length; j++){
-        pixels[i][j].setRed((short)(0.3 * (int)pixels[i][j].getRed() + 0.59 * (int)pixels[i][j].getGreen() + 0.11 * (int)pixels[i][j].getBlue()));
+        pixels[i][j].setRed((short)(0.3 * (int)pixels[i][j].getRed() +
+                             0.59 * (int)pixels[i][j].getGreen() +
+                             0.11 * (int)pixels[i][j].getBlue()));
         pixels[i][j].setGreen(pixels[i][j].getRed());
         pixels[i][j].setBlue(pixels[i][j].getRed());
       }
@@ -75,13 +77,22 @@ public class RGBImage implements Image{
 
     for(int i = 0; i < newPixels.length; i++){
       for(int j = 0; j < newPixels[0].length; j++){
-        red = (short)((int)pixels[2 * i][2 * j].getRed() + (int)pixels[2 * i][2 * j + 1].getRed() + (int)pixels[2 * i + 1][2 * j].getRed() + (int)pixels[2 * i][2 * j].getRed());
+        red = (short)((int)pixels[2 * i][2 * j].getRed() +
+                      (int)pixels[2 * i][2 * j + 1].getRed() +
+                      (int)pixels[2 * i + 1][2 * j].getRed() +
+                      (int)pixels[2 * i][2 * j].getRed());
         red =  (short)((int)red / 4);
 
-        green = (short)((int)pixels[2 * i][2 * j].getGreen()+ (int)pixels[2 * i][2 * j + 1].getGreen() + (int)pixels[2 * i + 1][2 * j].getGreen() + (int)pixels[2 * i][2 * j].getGreen());
+        green = (short)((int)pixels[2 * i][2 * j].getGreen()+
+                        (int)pixels[2 * i][2 * j + 1].getGreen() +
+                        (int)pixels[2 * i + 1][2 * j].getGreen() +
+                        (int)pixels[2 * i][2 * j].getGreen());
         green = (short)((int)green / 4);
 
-        blue = (short)((int)pixels[2 * i][2 * j].getBlue()+(int) pixels[2 * i][2 * j + 1].getBlue() + (int)pixels[2 * i + 1][2 * j].getBlue() + (int)pixels[2 * i][2 * j].getBlue());
+        blue = (short)((int)pixels[2 * i][2 * j].getBlue() +
+                       (int) pixels[2 * i][2 * j + 1].getBlue() +
+                       (int)pixels[2 * i + 1][2 * j].getBlue() +
+                       (int)pixels[2 * i][2 * j].getBlue());
         blue = (short)((int)blue / 4);
 
         newPixels[i][j] = new RGBPixel(red, green, blue);

@@ -36,7 +36,8 @@ public class PPMImage extends RGBImage{
       }
 
     } catch(FileNotFoundException ex){
-      throw new FileNotFoundException("PPMImage constructor: File \"" + file + "\" not found.");
+      throw new FileNotFoundException("PPMImage constructor: File \"" +
+                                      file + "\" not found.");
     } catch(NoSuchElementException ex){
       System.err.println("File is corrupted!");
       System.exit(1);

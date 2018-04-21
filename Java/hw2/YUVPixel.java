@@ -54,5 +54,5 @@ public class YUVPixel{
     return(Y + " " + U + " " + V + "\n");
   }
 
-  
+
 }

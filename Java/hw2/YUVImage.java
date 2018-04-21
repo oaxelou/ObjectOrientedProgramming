@@ -2,7 +2,7 @@
 
 import java.io.*;
 
-public class YUVImage implements Image{
+public class YUVImage /*implements Image*/{
   protected YUVPixel [][] pixels;
 
   private int width;
@@ -31,7 +31,6 @@ public class YUVImage implements Image{
     width  = copyImg.getWidth();
 
     pixels = new YUVPixel[height][width];
-
 
     for(int i = 0 ; i < height; i++){
       for(int j = 0; j < width; j++){
@@ -62,7 +61,6 @@ public class YUVImage implements Image{
   	int Y,U,V;
 
   	String transString;
-
     String[] Numbers;
 
   	try{
@@ -96,8 +94,6 @@ public class YUVImage implements Image{
   					U = new Integer( Numbers[1] );
   					V = new Integer( Numbers[2] );
 
-            //System.out.println("Height: " + height + " Width " + width + " i,j " + i + "," + j + " Y,U,V " + Y+ " " + U + " " + V);
-
   					pixels[i][j] = new YUVPixel( (short)Y, (short)U, (short)V );
   				}
   			}
@@ -105,7 +101,7 @@ public class YUVImage implements Image{
   	}
   	catch(IOException ex) {
 		System.out.println("IOException occured while reading from file ");
-	}
+	  }
   }
 
 
@@ -125,7 +121,7 @@ public class YUVImage implements Image{
   public int getWidth(){
     return width;
   }
-
+/*
   public void grayscale(){
     for(int i = 0; i < pixels.length; i++){
       for(int j = 0; j < pixels[0].length; j++){
@@ -181,7 +177,7 @@ public class YUVImage implements Image{
     }
     pixels = newPixels;
   }
-
+*/
   public String toString(){
 
     StringBuffer StrBuff = new StringBuffer();
@@ -194,9 +190,7 @@ public class YUVImage implements Image{
         StrBuff.append( pixels[i][j].toString() );
       }
     }
-
     return(StrBuff.toString());
-
   }
 
   public void toFile(java.io.File file){
@@ -210,7 +204,7 @@ public class YUVImage implements Image{
   }
 
   public void equalize(){
-    // YUVImage equa
+    // YUVImage equalization
     YUVPixel [][]newPixels = new YUVPixel[pixels.length][pixels[0].length];
     Histogram hist = new Histogram(this);
 
@@ -222,5 +216,4 @@ public class YUVImage implements Image{
     }
     pixels = newPixels;
   }
-
 }

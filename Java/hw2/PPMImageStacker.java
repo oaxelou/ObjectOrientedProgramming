@@ -6,7 +6,6 @@ import java.util.*;
 public class PPMImageStacker{
 
 	List <PPMImage> fileList;
-
 	PPMImage finalImage;
 
 	public PPMImageStacker(java.io.File dir) throws FileNotFoundException, UnsupportedFileFormatException {
@@ -15,9 +14,7 @@ public class PPMImageStacker{
 		PPMImage temp;
 
 		fileTable = dir.listFiles();
-
 		fileList = new LinkedList<PPMImage>();
-
 
 		for(int i = 0 ; i < fileTable.length; i++){
 			try{
@@ -27,25 +24,18 @@ public class PPMImageStacker{
 			catch( UnsupportedFileFormatException ex1 ){}
 			catch( FileNotFoundException ex2){}
 		}
-
-
-
-
 	}
 
 	public void stack(){
 
 		int sum, average;
-
 		int i,j,k;
-
 		int height = fileList.get(0).getPixelsArray().length;
 		int width  = fileList.get(0).getPixelsArray()[0].length;
 
 		finalImage = new PPMImage(width, height, 0);
 
 		for(i = 0; i < height; i++){
-
 			for(j =0; j < width; j++){
 
 				//SET RED FOR EACH PIXEL
@@ -54,7 +44,7 @@ public class PPMImageStacker{
 				for(k =0; k < fileList.size(); k++)
 					sum += fileList.get(k).getPixelsArray()[i][j].getRed();
 
-				average = sum / fileList.size()  ; 
+				average = sum / fileList.size()  ;
 
 				finalImage.getPixelsArray()[i][j].setRed( (short)average );
 
@@ -64,7 +54,7 @@ public class PPMImageStacker{
 				for(k =0; k < fileList.size(); k++)
 					sum += fileList.get(k).getPixelsArray()[i][j].getGreen();
 
-				average = sum / fileList.size()  ; 
+				average = sum / fileList.size()  ;
 
 				finalImage.getPixelsArray()[i][j].setGreen( (short)average );
 
@@ -74,19 +64,14 @@ public class PPMImageStacker{
 				for(k =0; k < fileList.size(); k++)
 					sum += fileList.get(k).getPixelsArray()[i][j].getBlue();
 
-				average = sum / fileList.size()  ; 
+				average = sum / fileList.size()  ;
 
 				finalImage.getPixelsArray()[i][j].setBlue( (short)average );
 			}
-
 		}
-
-
 	}
 
 	public PPMImage getStackedImage(){
-
 		return finalImage;
 	}
-
 }
