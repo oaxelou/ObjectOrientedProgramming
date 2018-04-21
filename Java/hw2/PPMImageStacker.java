@@ -1,4 +1,4 @@
-// package ce325.hw2;
+package ce325.hw2;
 
 import java.io.*;
 import java.util.*;
@@ -13,6 +13,9 @@ public class PPMImageStacker{
 		File [] fileTable;
 		PPMImage temp;
 
+		if(dir.isDirectory() == false){
+			throw new FileNotFoundException("Not a directory.");
+		}
 		fileTable = dir.listFiles();
 		fileList = new LinkedList<PPMImage>();
 
@@ -21,8 +24,12 @@ public class PPMImageStacker{
 				temp = new PPMImage(fileTable[i]);
 				fileList.add(temp);
 			}
-			catch( UnsupportedFileFormatException ex1 ){}
-			catch( FileNotFoundException ex2){}
+			catch( UnsupportedFileFormatException ex1 ){
+				throw new UnsupportedFileFormatException("Directory must contain only PPM files.");
+			}
+			catch( FileNotFoundException ex2){
+				throw new FileNotFoundException("Directory must contain only PPM files.");
+			}
 		}
 	}
 

@@ -1,6 +1,7 @@
-// package ce325.hw2;
+package ce325.hw2;
 
 import java.io.*;
+import javax.swing.*;
 
 public class YUVImage /*implements Image*/{
   protected YUVPixel [][] pixels;
@@ -39,7 +40,6 @@ public class YUVImage /*implements Image*/{
     }
   }
 
-
   public YUVImage(RGBImage RGBImg){
 
     height = RGBImg.pixels.length;
@@ -69,11 +69,11 @@ public class YUVImage /*implements Image*/{
   		transString = inputStream.readLine();
 
   		if(transString == null || transString.compareTo("YUV3") != 0){
-  			throw new UnsupportedFileFormatException();
+  			throw new UnsupportedFileFormatException("Not YUV file!");
   		}
 
   		if( ( transString = inputStream.readLine() ) == null){
-  			throw new UnsupportedFileFormatException();
+  			throw new UnsupportedFileFormatException("YUV file is corrupted.");
   		}
 
       Numbers = transString.split(" ");
@@ -100,7 +100,7 @@ public class YUVImage /*implements Image*/{
 
   	}
   	catch(IOException ex) {
-		System.out.println("IOException occured while reading from file ");
+      throw new FileNotFoundException("File was not found!");
 	  }
   }
 
@@ -198,8 +198,9 @@ public class YUVImage /*implements Image*/{
   	try (FileWriter fWriter = new FileWriter(file, false)) {
       fWriter.write(toString());
     }catch(IOException ex){
-      System.err.println("Something went wrong with FileWriter");
-      System.exit(1);
+      JOptionPane.showMessageDialog(new JFrame(), "Un error occured with FileWriter."
+                                                  + "\nPlease try again.",
+                                    "YUVImage.toFile()", JOptionPane.ERROR_MESSAGE);
     }
   }
 

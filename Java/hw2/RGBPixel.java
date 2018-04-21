@@ -1,4 +1,4 @@
-// package ce325.hw2;
+package ce325.hw2;
 
 public class RGBPixel{
   private int color;

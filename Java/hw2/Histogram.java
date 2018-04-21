@@ -1,4 +1,4 @@
-// package ce325.hw2;
+package ce325.hw2;
 
 import java.io.*;
 

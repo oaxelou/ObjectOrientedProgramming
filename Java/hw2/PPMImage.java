@@ -1,7 +1,9 @@
-// package ce325.hw2;
+package ce325.hw2;
 
 import java.util.*;
 import java.io.*;
+// import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class PPMImage extends RGBImage{
 
@@ -39,8 +41,8 @@ public class PPMImage extends RGBImage{
       throw new FileNotFoundException("PPMImage constructor: File \"" +
                                       file + "\" not found.");
     } catch(NoSuchElementException ex){
-      System.err.println("File is corrupted!");
-      System.exit(1);
+      JOptionPane.showMessageDialog(new JFrame(), "File is corrupted!",
+                                    "PPMImage Constructor", JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -70,8 +72,9 @@ public class PPMImage extends RGBImage{
     try (FileWriter fWriter = new FileWriter(file, false)) {
       fWriter.write(toString());
     }catch(IOException ex){
-      System.err.println("Something went wrong with FileWriter");
-      System.exit(1);
+      JOptionPane.showMessageDialog(new JFrame(), "Un error occured with FileWriter."
+                                                  + "\nPlease try again.",
+                                    "PPMImage.toFile()", JOptionPane.ERROR_MESSAGE);
     }
   }
 }

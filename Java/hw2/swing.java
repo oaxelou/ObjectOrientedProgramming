@@ -1,3 +1,5 @@
+package ce325.hw2;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -28,30 +30,34 @@ public class swing extends JFrame implements ActionListener {
     gui.setVisible(true);
   }
 
-  public void getPPMfromFile(File f){
+  public boolean getPPMfromFile(File f){
     try{
       ppmCurrImg = new PPMImage(f);
       yuvCurrImg = new YUVImage(ppmCurrImg);
 
+      return true;
     }catch(FileNotFoundException ex){
-      System.err.println("File not found exception");
-      System.exit(1);
+      JOptionPane.showMessageDialog(new JFrame(), "File not found exception",
+                                    "PPMImage Error", JOptionPane.ERROR_MESSAGE);
+      return false;
     }catch(UnsupportedFileFormatException ex){
-      System.err.println("Not ppm file");
-      System.exit(1);
+      JOptionPane.showMessageDialog(new JFrame(), "Not ppm file",
+                                    "PPMImage Error", JOptionPane.ERROR_MESSAGE);
+      return false;
     }
   }
 
-  public void getYUVfromFile(File f){
+  public boolean getYUVfromFile(File f){
     try{
       yuvCurrImg = new YUVImage(f);
       ppmCurrImg = new PPMImage(yuvCurrImg);
+      return true;
     }catch(FileNotFoundException ex){
-      System.err.println("File not found exception");
-      System.exit(1);
+      JOptionPane.showMessageDialog(new JFrame(), "File not found exception",
+                                    "YUVImage Error", JOptionPane.ERROR_MESSAGE);
+      return false;
     }catch(UnsupportedFileFormatException ex){
-      System.err.println("Not ppm file");
-      System.exit(1);
+      return false;
     }
   }
 
@@ -172,15 +178,17 @@ public class swing extends JFrame implements ActionListener {
     setSize(width, height);
     ImgLabel.setIcon(currIcon);
 
+    enableEditAndSave();
   }
 
   public swing() {
     super("ce325 - hw2: Image Processing");
     setSize(WIDTH, HEIGHT);
 
-    fc = new JFileChooser(System.getProperty("."));
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "ppm", "yuv");
-    fc.setFileFilter(filter);
+    // fc = new JFileChooser(System.getProperty("."));
+    // fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
+    // FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "ppm", "yuv");
+    // fc.setFileFilter(filter);
 
     ImgLabel = new JLabel();
     ImgLabel.setSize(WIDTH*2, HEIGHT*3);
@@ -196,36 +204,43 @@ public class swing extends JFrame implements ActionListener {
     String menuString = e.getActionCommand();
 
     if(e.getSource().equals(PPMFileOpen) ) {
+      fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
+
       FileNameExtensionFilter filter = new FileNameExtensionFilter("ppm Files", "ppm");
       fc.setFileFilter(filter);
       int returnVal = fc.showOpenDialog(swing.this);
       if(returnVal == JFileChooser.APPROVE_OPTION){
-        getPPMfromFile(fc.getSelectedFile());
-        changeBackground();
-        enableEditAndSave();
+        if(getPPMfromFile(fc.getSelectedFile()) == true){
+          changeBackground();
+        }
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
         // File chooser open dialog cancelled by user
       } else{
-        System.err.println("Error occured with file chooser!");
-        System.exit(1);
+        JOptionPane.showMessageDialog(new JFrame(), "Un error occured with file " +
+                                                    "chooser.\nPlease try again.",
+                                      "File Chooser", JOptionPane.ERROR_MESSAGE);
       }
+      fc = null;
     }else if(e.getSource().equals(YUVFileOpen)){
+      fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
       FileNameExtensionFilter filter = new FileNameExtensionFilter("yuv Files", "yuv");
       fc.setFileFilter(filter);
       int returnVal = fc.showOpenDialog(swing.this);
       if(returnVal == JFileChooser.APPROVE_OPTION){
-        getYUVfromFile(fc.getSelectedFile());
-        changeBackground();
-        enableEditAndSave();
+        if(getYUVfromFile(fc.getSelectedFile()) == true){
+          changeBackground();
+        }
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
         // File chooser open dialog cancelled by user
       } else{
-        System.err.println("Error occured with file chooser!");
-        System.exit(1);
+        JOptionPane.showMessageDialog(new JFrame(), "Un error occured with file " +
+                                                    "chooser.\nPlease try again.",
+                                      "File Chooser", JOptionPane.ERROR_MESSAGE);
       }
-
+      fc = null;
     }else if(e.getSource().equals(PPMFileSave)){
       if(ppmCurrImg != null){
+        fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("ppm Files", "ppm");
         fc.setFileFilter(filter);
         int returnVal = fc.showSaveDialog(swing.this);
@@ -234,12 +249,15 @@ public class swing extends JFrame implements ActionListener {
         } else if(returnVal == JFileChooser.CANCEL_OPTION){
           // File chooser open dialog cancelled by user
         } else{
-          System.err.println("Error occured with file chooser!");
-          System.exit(1);
+          JOptionPane.showMessageDialog(new JFrame(), "Un error occured with file " +
+                                                      "chooser.\nPlease try again.",
+                                        "File Chooser", JOptionPane.ERROR_MESSAGE);
         }
       }
+      fc = null;
     }else if(e.getSource().equals(YUVFileSave)){
       if(yuvCurrImg != null){
+        fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("yuv Files", "yuv");
         fc.setFileFilter(filter);
         int returnVal = fc.showSaveDialog(swing.this);
@@ -248,10 +266,12 @@ public class swing extends JFrame implements ActionListener {
         } else if(returnVal == JFileChooser.CANCEL_OPTION){
           // File chooser open dialog cancelled by user
         } else{
-          System.err.println("Error occured with file chooser!");
-          System.exit(1);
+          JOptionPane.showMessageDialog(new JFrame(), "Un error occured with file " +
+                                                      "chooser.\nPlease try again.",
+                                        "File Chooser", JOptionPane.ERROR_MESSAGE);
         }
       }
+      fc = null;
     }else if(e.getSource().equals(Grayscale)){
       if(ppmCurrImg != null){
         ppmCurrImg.grayscale();
@@ -283,6 +303,7 @@ public class swing extends JFrame implements ActionListener {
         changeBackground();
       }
     }else if(e.getSource().equals(SelectDir)){
+      fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
       fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
       FileNameExtensionFilter filter = new FileNameExtensionFilter("Directories", "*");
       fc.setFileFilter(filter);
@@ -296,18 +317,22 @@ public class swing extends JFrame implements ActionListener {
             enableEditAndSave();
             yuvCurrImg = new YUVImage(ppmCurrImg);
           } catch(FileNotFoundException ex) {
-            System.out.println("ERROR :"+ex.getMessage());
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(),
+                                  "PPMImageStacker", JOptionPane.ERROR_MESSAGE);
           } catch(UnsupportedFileFormatException ex) {
-            System.out.println("ERROR :"+ex.getMessage());
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(),
+                                  "PPMImageStacker", JOptionPane.ERROR_MESSAGE);
           }
       } else if(returnVal == JFileChooser.CANCEL_OPTION){
         // File chooser open dialog cancelled by user
       } else{
-        System.err.println("Error occured with file chooser!");
-        System.exit(1);
+        JOptionPane.showMessageDialog(new JFrame(), "Error with file chooser",
+                                      "Error", JOptionPane.ERROR_MESSAGE);
       }
+      fc = null;
     }else{
-      System.out.println("None of the above. Something is wrong!");
+      System.err.println("None of the above. Something is wrong!");
+      System.exit(1);
     }
   }
 }
