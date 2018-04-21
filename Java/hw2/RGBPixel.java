@@ -1,3 +1,11 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   RGBPixel class:
+*   Represents an RGB formated Pixel in the program.
+* 
+*/
+
 package ce325.hw2;
 
 public class RGBPixel{

@@ -1,3 +1,11 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   YUVPixel class:
+*   Represents an YUV formated Pixel in the program.
+* 
+*/
+
 package ce325.hw2;
 
 public class YUVPixel{

@@ -1,3 +1,11 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   RGBImage class:
+*   Represents an RGB formated Image in the program.
+* 
+*/
+
 package ce325.hw2;
 
 public class RGBImage implements Image{

@@ -1,8 +1,15 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   PPMImage class:
+*   Represents an PPM formated Image in the program. Extends RGBImage
+* 
+*/
+
 package ce325.hw2;
 
 import java.util.*;
 import java.io.*;
-// import javax.swing.JOptionPane;
 import javax.swing.*;
 
 public class PPMImage extends RGBImage{

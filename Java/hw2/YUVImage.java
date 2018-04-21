@@ -1,3 +1,11 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   YUVImage class:
+*   Represents an YUV formated Image in the program.
+* 
+*/
+
 package ce325.hw2;
 
 import java.io.*;

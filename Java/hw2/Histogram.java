@@ -1,3 +1,11 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   Histogram class:
+*   Grapse edw
+* 
+*/
+
 package ce325.hw2;
 
 import java.io.*;

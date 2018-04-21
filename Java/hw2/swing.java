@@ -1,3 +1,13 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   swing class:
+*   Includes main method of program. Includes also every method used for swing
+*   and with user communication.
+*   Extends JFrame and implements ActionListener.
+* 
+*/
+
 package ce325.hw2;
 
 import javax.swing.*;

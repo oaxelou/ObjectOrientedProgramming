@@ -1,3 +1,12 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   PPMImageStacker class:
+*   The objects occured by this class manage the stacking of a set of PPMImages into one.
+* 
+*/
+
+
 package ce325.hw2;
 
 import java.io.*;
