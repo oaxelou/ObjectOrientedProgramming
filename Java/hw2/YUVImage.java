@@ -3,7 +3,9 @@
 *
 *   YUVImage class:
 *   Represents an YUV formated Image in the program.
-* 
+*
+*   Sxolio: eixame ulopoihsei tis sunarthseis gia to interface Image
+*   kai ta afhsame se sxolia.
 */
 
 package ce325.hw2;

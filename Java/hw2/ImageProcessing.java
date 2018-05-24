@@ -1,11 +1,11 @@
 /*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
 *               Axelou Olympia            oaxelou@inf.uth.gr
 *
-*   swing class:
+*   ImageProcessing class:
 *   Includes main method of program. Includes also every method used for swing
 *   and with user communication.
 *   Extends JFrame and implements ActionListener.
-* 
+*
 */
 
 package ce325.hw2;
@@ -17,7 +17,7 @@ import java.awt.image.*;
 import java.io.*;
 import javax.swing.filechooser.*;
 
-public class swing extends JFrame implements ActionListener {
+public class ImageProcessing extends JFrame implements ActionListener {
   public static final int WIDTH = 400;
   public static final int HEIGHT = 250;
 
@@ -36,7 +36,7 @@ public class swing extends JFrame implements ActionListener {
   private JMenuItem EqualHist, SelectDir;
 
   public static void main(String args[]) {
-    swing gui = new swing();
+    ImageProcessing gui = new ImageProcessing();
     gui.setVisible(true);
   }
 
@@ -191,7 +191,7 @@ public class swing extends JFrame implements ActionListener {
     enableEditAndSave();
   }
 
-  public swing() {
+  public ImageProcessing() {
     super("ce325 - hw2: Image Processing");
     setSize(WIDTH, HEIGHT);
 
@@ -218,7 +218,7 @@ public class swing extends JFrame implements ActionListener {
 
       FileNameExtensionFilter filter = new FileNameExtensionFilter("ppm Files", "ppm");
       fc.setFileFilter(filter);
-      int returnVal = fc.showOpenDialog(swing.this);
+      int returnVal = fc.showOpenDialog(ImageProcessing.this);
       if(returnVal == JFileChooser.APPROVE_OPTION){
         if(getPPMfromFile(fc.getSelectedFile()) == true){
           changeBackground();
@@ -235,7 +235,7 @@ public class swing extends JFrame implements ActionListener {
       fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
       FileNameExtensionFilter filter = new FileNameExtensionFilter("yuv Files", "yuv");
       fc.setFileFilter(filter);
-      int returnVal = fc.showOpenDialog(swing.this);
+      int returnVal = fc.showOpenDialog(ImageProcessing.this);
       if(returnVal == JFileChooser.APPROVE_OPTION){
         if(getYUVfromFile(fc.getSelectedFile()) == true){
           changeBackground();
@@ -253,7 +253,7 @@ public class swing extends JFrame implements ActionListener {
         fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("ppm Files", "ppm");
         fc.setFileFilter(filter);
-        int returnVal = fc.showSaveDialog(swing.this);
+        int returnVal = fc.showSaveDialog(ImageProcessing.this);
         if(returnVal == JFileChooser.APPROVE_OPTION){
           ppmCurrImg.toFile(fc.getSelectedFile());
         } else if(returnVal == JFileChooser.CANCEL_OPTION){
@@ -270,7 +270,7 @@ public class swing extends JFrame implements ActionListener {
         fc = new JFileChooser(System.getProperty("user.home") + "/Desktop/ImageProcessing");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("yuv Files", "yuv");
         fc.setFileFilter(filter);
-        int returnVal = fc.showSaveDialog(swing.this);
+        int returnVal = fc.showSaveDialog(ImageProcessing.this);
         if(returnVal == JFileChooser.APPROVE_OPTION){
           yuvCurrImg.toFile(fc.getSelectedFile());
         } else if(returnVal == JFileChooser.CANCEL_OPTION){
@@ -317,7 +317,7 @@ public class swing extends JFrame implements ActionListener {
       fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
       FileNameExtensionFilter filter = new FileNameExtensionFilter("Directories", "*");
       fc.setFileFilter(filter);
-      int returnVal = fc.showOpenDialog(swing.this);
+      int returnVal = fc.showOpenDialog(ImageProcessing.this);
       if(returnVal == JFileChooser.APPROVE_OPTION){
         try {
             PPMImageStacker stacker = new PPMImageStacker(fc.getSelectedFile());
