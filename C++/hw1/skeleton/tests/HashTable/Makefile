@@ -62,6 +62,7 @@ diff:
 	diff t9_1.out t9_1.std
 	diff t10_1.out t10_1.std
 	diff t11_1.out t11_1.std
+	diff t12_1.out t12_1.std
 	
 clean:
 	rm *.out t1 t2 t3 t4 t5 t6 t7 t8 t9 t10 t11 t12

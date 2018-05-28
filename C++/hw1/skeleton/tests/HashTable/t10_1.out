@@ -1,4 +1,4 @@
- ###### HASH TABLE ######
+ ###### HASH TABLE 1 ######
  0. -she-
  1. -a-
  2. -when-
@@ -16,3 +16,5 @@
 14. -assigned-
  --- CAPACITY: 16, SIZE: 15 ---
 
+THROW Exception!
+HashTableException occured!

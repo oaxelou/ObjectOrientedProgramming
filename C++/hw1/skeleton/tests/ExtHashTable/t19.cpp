@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
     
     table3 = table2 + table1;    
     cout << " ###### HASH TABLE 3 = 2+1 ######" << endl;
-    cout << table2.print() << endl;
+    cout << table3.print() << endl;
   
   } catch(std::bad_alloc ex) {
     cout << "std::bad_alloc occured!\n";

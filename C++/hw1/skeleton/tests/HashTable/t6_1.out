@@ -1,0 +1,56 @@
+'when' added!
+'arrived' added!
+'was' added!
+'on' added!
+'campus' added!
+'about' added!
+'she' added!
+'was' failed!
+'assigned' added!
+'to' added!
+'a' added!
+'study' added!
+'a' failed!
+'group' added!
+'carefully' added!
+'arrived' failed!
+'learning' added!
+'about' failed!
+'group' failed!
+'bees' added!
+ ###### HASH TABLE 1 ######
+ 0. -she-
+ 1. -a-
+ 2. -when-
+ 3. -to-
+ 4. -group-
+ 5. -learning-
+ 6. -bees-
+ 7. -carefully-
+ 8. -campus-
+ 9. -study-
+10. -was-
+11. -about-
+12. -arrived-
+13. -on-
+14. -assigned-
+ --- CAPACITY: 16, SIZE: 15 ---
+
+ ###### HASH TABLE 2 ######
+ 0. -she-
+ 1. -a-
+ 2. -when-
+ 3. -to-
+ 4. -group-
+ 5. -learning-
+ 6. -bees-
+ 7. -carefully-
+ 8. -campus-
+ 9. -study-
+10. -was-
+11. -about-
+12. -arrived-
+13. -on-
+14. -assigned-
+ --- CAPACITY: 16, SIZE: 15 ---
+
