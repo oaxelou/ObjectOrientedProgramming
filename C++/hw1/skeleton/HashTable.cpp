@@ -16,20 +16,20 @@ int HashTable::getHashCode(const char *str) {
 int HashTable::getSize() const { return size; }
 int HashTable::getCapacity() const {return capacity; }
 
-bool HashTable::isEmpty(int pos) const { 
-  if(table[pos].empty()) 
+bool HashTable::isEmpty(int pos) const {
+  if(table[pos].empty())
     return true;
   return false;
 }
 
-bool HashTable::isTomb(int pos) const { 
+bool HashTable::isTomb(int pos) const {
   if(table[pos].compare("##tomb##")==0)
-    return true; 
+    return true;
   return false;
 }
 
 //LAMBIS WORKED HERE
-bool HashTable::isAvailable(int pos) const { 
+bool HashTable::isAvailable(int pos) const {
 
 	if(isTomb(pos) || isEmpty(pos))
 		return true;
@@ -44,7 +44,7 @@ HashTable::HashTable(int capacity) {
 	std::bad_alloc ex;
 
 	if(capacity < 0)
-		throw ex;
+		throw std::bad_alloc();
 
 	try{
 		table = new string [capacity];
@@ -52,6 +52,8 @@ HashTable::HashTable(int capacity) {
 		throw ex;
 	}
 
+  this->capacity = capacity;
+  size = 0;
 	for(int i = 0; i < capacity; i++)
 		table[i] = "";
 
@@ -80,16 +82,16 @@ HashTable::HashTable(const HashTable &ht) {
 
 //LAMBIS WORKED HERE
 bool HashTable::contains(const string &s) const {
-
+  //  return contains(s.c_str()); // olympia: tha mporousame na valoume mono auto
 	int hashCode;
 	int pos;
 
 	hashCode = getHashCode( s.c_str() );
-	
+
 	for(int i = 0; i< capacity; i++){
 
 		pos = (i + hashCode) % capacity;
-		
+
 		if( isEmpty(pos) )
 			return false;
 
@@ -105,14 +107,14 @@ bool HashTable::contains(const string &s) const {
 //LAMBIS WORKED HERE
 bool HashTable::contains(const char *s) const {
 
-	int hashCode = getHashCode(s);	
+	int hashCode = getHashCode(s);
 	string s_obj(s);
 	int pos;
 
 	for(int i = 0; i< capacity; i++){
 
 		pos = (i + hashCode) % capacity;
-		
+
 		if( isEmpty(pos) )
 			return false;
 
@@ -128,7 +130,7 @@ bool HashTable::contains(const char *s) const {
 string HashTable::print() const {
   string str;
   char buf[128];
-/* Remove the following comment if you want 
+/* Remove the following comment if you want
  * to try the iterator version.
  */
 // #define __USE_ITERATOR__
@@ -151,7 +153,7 @@ string HashTable::print() const {
 
 //LAMBIS WORKED HERE
 bool HashTable::add(const string &str) {
-
+  //return HashTable::add(str.c_str());
 	int hashCode, pos;
 	HashTableException ex;
 
@@ -164,16 +166,18 @@ bool HashTable::add(const string &str) {
 	for(int i = 0; i< capacity; i++){
 
 		pos = (i + hashCode) % capacity;
-		
+
 		if( isEmpty(pos) || isTomb(pos) ){
 			table[pos] = str;
+      size++; // olympia
 			return true;
 		}
 
 	}
 
+  cout << "THROW Exception!\n";
 	throw ex;
-	return false;
+	return false;  // den xreiazetai
 
 }
 
@@ -192,20 +196,23 @@ bool HashTable::add(const char *s) {
 	for(int i = 0; i< capacity; i++){
 
 		pos = (i + hashCode) % capacity;
-		
+
 		if( isEmpty(pos) || isTomb(pos) ){
-			table[pos].assign(s); 
+			table[pos].assign(s);
+      size++; // olympia
+      return true; // olympia
 		}
 	}
 
+  cout << "THROW Exception!\n";
 	throw ex;
-	return false;
-  
+	return false; // den xreiazetai
+
 }
 
 //LAMBIS WORKED HERE
 bool HashTable::remove(const string &str) {
-  
+
   int hashCode, pos;
 
 
@@ -215,13 +222,15 @@ bool HashTable::remove(const string &str) {
 	for(int i = 0; i< capacity; i++){
 
 		pos = (i + hashCode) % capacity;
-		
+
 		if( isEmpty(pos)){
 			break;
 		}
 
 		if( table[pos].compare(str) == 0){
 			table[pos] = "##tomb##";
+      size--; // olympia
+      return true; // olympia
 		}
 	}
 
@@ -229,7 +238,7 @@ bool HashTable::remove(const string &str) {
 }
 
 bool HashTable::remove(const char *s) {
-  
+
 	int hashCode, pos;
 	string s_obj(s);
 
@@ -240,15 +249,15 @@ bool HashTable::remove(const char *s) {
 	for(int i = 0; i< capacity; i++){
 
 		pos = (i + hashCode) % capacity;
-		
+
 		if( isEmpty(pos)){
 			break;
 		}
 
 		if( table[pos].compare(s_obj) == 0){
 			table[pos] = "##tomb##";
-
-
+      size--; // olympia
+      return true; // olympia
 		}
 	}
 
@@ -256,59 +265,47 @@ bool HashTable::remove(const char *s) {
 }
 
 HashTable& HashTable::operator=(const HashTable &ht) {
-  
-	return ht;
+  capacity = ht.capacity;
+  size = ht.size;
 
+  delete[]table;
+  table = new string[capacity];
+  for(int i = 0; i < capacity; i++){
+    table[i] = ht.table[i];
+  }
+  return *this;
 }
 
-bool HashTable::operator += (const string &str) { 
-
-	if( add(str) )
-		return true;
-
-	return false;
-  
+bool HashTable::operator += (const string &str) {
+  return add(str);
 }
-bool HashTable::operator += (const char* s) { 
-
-	if( add(s) )
-		return true;
-
-	return false;
-  
+bool HashTable::operator += (const char* s) {
+  return add(s);
 }
 bool HashTable::operator -= (const string &str) {
-
-	if( remove(str) )
-		return true;
-
-	return false;
-  
+  return remove(str);
 }
-bool HashTable::operator -= (const char *s) { 
-  
-	if( remove(s) )
-		return true;
-
-	return false;
-
+bool HashTable::operator -= (const char *s) {
+  return remove(s);
 }
 
 HashTable HashTable::operator + (const string &str) const {
 
 	HashTable newHashTable(*this);
 
-	newHashTable.add(str);
+  if(!contains(str))
+	 newHashTable.add(str);
 
 	return newHashTable;
-  
+
 }
 
 HashTable HashTable::operator + (const char* s) const {
 
 	HashTable newHashTable(*this);
 
-	newHashTable.add(s);
+  if(!contains(s))
+	 newHashTable.add(s);
 
 	return newHashTable;
 
@@ -354,7 +351,7 @@ HashTable HashTable::operator+(const HashTable &t) const {
 
 HashTable& HashTable::operator+=(const HashTable &t) {
 
-	capacity += t.getCapacity();
+	// capacity += t.getCapacity(); //den allazei to capacity
 
 	for( int i =0; i < t.getCapacity() ; i++){
 		if(!t.isEmpty(i) && !t.isTomb(i) )
@@ -365,15 +362,21 @@ HashTable& HashTable::operator+=(const HashTable &t) {
 }
 
 std::ostream& operator<<(std::ostream &os, HashTable &t) {
-	os << t.print();
-	return os;
+	// os << t.print();
+  // return os;
+  return os.write((char*)t.print().c_str() , (int)t.print().length());
 }
 
-/*
 HashTable::Iterator HashTable::begin() const {
-
+  Iterator it(this);
+  return it;
 }
 
 HashTable::Iterator HashTable::end() const {
+  Iterator it(this);
 
-}*/
+  for(int i = 0; i < capacity; i++)
+    it++;
+
+  return it;
+}
