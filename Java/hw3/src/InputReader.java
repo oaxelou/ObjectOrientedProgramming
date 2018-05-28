@@ -1,11 +1,34 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*	package ce325.hw3, Sudoku Project
+*   InputReader class:
+*
+*	Class which gets input from specified link.
+*
+*	Constructor's arguments is int level, which can be one of the consts:
+*		-> InputReader.EASY: 		 	game mode is easy.
+*		-> InputReader.INTERMEDIATE: 	game mode is intermediate.
+*		-> InputReader.EXPERT: 		 	game mode is for experts.
+*
+*	* String[] getInput() function returns String[] which represents input for Sudoku game.
+*		->Each content of the table represents a line.
+*		->Each content of String represents a content of the specified line.
+*		->Contents as digits represent boxes with the same digit in game.
+*		->Contents as '.' represent empty boxes.
+*
+*/
+
+package ce325.hw3;
+
 import java.net.*;
 import java.io.*;
 
 public class InputReader{
 
-	private static int EASY         = 0;
-	private static int INTERMEDIATE = 1;
-	private static int EXPERT       = 2;
+	public static int EASY         = 0;
+	public static int INTERMEDIATE = 1;
+	public static int EXPERT       = 2;
 
 	private static String URL_EASY = "http://gthanos.inf.uth.gr/~gthanos/sudoku/exec.php?difficulty=easy";
 	private static String URL_INTERMEDIATE = "http://gthanos.inf.uth.gr/~gthanos/sudoku/exec.php?difficulty=intermediate";

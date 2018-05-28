@@ -1,3 +1,14 @@
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   Sudoku class:
+*
+*	Main class of Sudoku project. Includes main function and code of the main frame.
+*   
+*/
+
+package ce325.hw3;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,10 +23,6 @@ public class Sudoku implements ActionListener{
   	private static final int WIDTH = 400;
   	private static final int HEIGHT = 1000;
   	private static final String LINK_IMAGES = "../images/";
-
-  	private static int MODE_EASY         = 0;
-	private static int MODE_INTERMEDIATE = 1;
-	private static int MODE_EXPERT       = 2;
 
 	private static int BUT_INITIALIZE     = 0;
 	private static int BUT_PUSHED         = 1;
@@ -45,11 +52,9 @@ public class Sudoku implements ActionListener{
 
   	private int [] selectedButton;
 
-  	private TerminalSudokuPrinter terminalPrinter;
-
 	public Sudoku(){
 
-		frame = new JFrame("Hello");
+		frame = new JFrame("Sudoku");
 
 	    frame.setSize(WIDTH, HEIGHT);
 
@@ -86,79 +91,20 @@ public class Sudoku implements ActionListener{
 
 	private void createBoxArea(){
 
+		JPanel [][] panel = new JPanel[3][3];
 		Border lineBorder = new LineBorder(Color.CYAN);
 
-		JPanel north = new JPanel();
-		JPanel south = new JPanel(); 
-
-		JPanel west = new JPanel(); 
-		JPanel center = new JPanel();
-		JPanel east = new JPanel(); 
-
-		JPanel wNorth = new JPanel();
-		JPanel cNorth = new JPanel();
-		JPanel eNorth = new JPanel();
-
-		JPanel wSouth = new JPanel();
-		JPanel cSouth = new JPanel();
-		JPanel eSouth = new JPanel();
-
-		north.setLayout(new BorderLayout());
-		south.setLayout(new BorderLayout());
-
-		west.setLayout(new BorderLayout());
-		center.setLayout(new BorderLayout());
-		east.setLayout(new BorderLayout());
-
-		wNorth.setLayout(new BorderLayout());
-		cNorth.setLayout(new BorderLayout());
-		eNorth.setLayout(new BorderLayout());
-
-		wSouth.setLayout(new BorderLayout());
-		cSouth.setLayout(new BorderLayout());
-		eSouth.setLayout(new BorderLayout());
-
-		west.setBorder(lineBorder);
-		center.setBorder(lineBorder);
-		east.setBorder(lineBorder);
-
-		wNorth.setBorder(lineBorder);
-		cNorth.setBorder(lineBorder);
-		eNorth.setBorder(lineBorder);
-
-		wSouth.setBorder(lineBorder);
-		cSouth.setBorder(lineBorder);
-		eSouth.setBorder(lineBorder);
-
-		boxArea.add(north, BorderLayout.NORTH);
-		boxArea.add(south, BorderLayout.SOUTH);
-
-		north.add(wNorth, BorderLayout.WEST);
-		north.add(cNorth, BorderLayout.CENTER);
-		north.add(eNorth, BorderLayout.EAST);
-
-		boxArea.add(west, BorderLayout.WEST);
-		boxArea.add(center, BorderLayout.CENTER);
-		boxArea.add(east, BorderLayout.EAST);
-
-		south.add(wSouth, BorderLayout.WEST);
-		south.add(cSouth, BorderLayout.CENTER);
-		south.add(eSouth, BorderLayout.EAST);
-
-		createBoxes(wNorth, 0, 0);
-		createBoxes(cNorth, 1, 0);
-		createBoxes(eNorth, 2, 0);
-
-		createBoxes(west,   0, 1);
-		createBoxes(center, 1, 1);
-		createBoxes(east,   2, 1);
-
-		createBoxes(wSouth, 0, 2);
-		createBoxes(cSouth, 1, 2);
-		createBoxes(eSouth, 2, 2);
+		boxArea.setLayout( new GridLayout(3,3) );
 
 		for(int i=0; i < 3; i++){
  			for(int j=0; j< 3; j++){
+ 				
+ 				panel[i][j] = new JPanel();
+ 				panel[i][j].setLayout( new GridLayout(3,3) );
+ 				panel[i][j].setBorder(lineBorder);
+ 				boxArea.add(panel[i][j]);
+ 				createBoxes(panel[i][j], j, i);
+
  				for(int k=0; k<3; k++){
  					for(int m=0; m<3; m++){
 
@@ -170,13 +116,9 @@ public class Sudoku implements ActionListener{
  			}
 	 		
 	 	}
-
 	}
 	
 	private void createBoxes(JPanel panel, int line, int col){
-
-		JPanel northPanel = new JPanel();
-		JPanel southPanel = new JPanel(); 
 
 		button[col][line][0][0] = new JButton(" "); 
 		button[col][line][0][1] = new JButton(" ");
@@ -190,34 +132,17 @@ public class Sudoku implements ActionListener{
 		button[col][line][2][1] = new JButton(" "); 
 		button[col][line][2][2] = new JButton(" ");
 
-		button[col][line][0][0].setSize(20,10);
-		button[col][line][1][0].setSize(20,10);
-		button[col][line][2][0].setSize(20,10);
+		panel.add(button[col][line][0][0]);
+		panel.add(button[col][line][0][1]);
+		panel.add(button[col][line][0][2]);
 
-		button[col][line][0][1].setSize(20,10); 
-		button[col][line][1][1].setSize(20,10);
-		button[col][line][2][1].setSize(20,10); 
+		panel.add(button[col][line][1][0]);
+		panel.add(button[col][line][1][1]);
+		panel.add(button[col][line][1][2]);
 
-		button[col][line][0][2].setSize(20,10);
-		button[col][line][1][2].setSize(20,10);
-		button[col][line][2][2].setSize(20,10);
-
-		panel.add(northPanel, BorderLayout.NORTH);
-		panel.add(southPanel, BorderLayout.SOUTH);
-		
-		northPanel.add(button[col][line][0][0], BorderLayout.WEST);
-		northPanel.add(button[col][line][0][1], BorderLayout.NORTH);
-		northPanel.add(button[col][line][0][2], BorderLayout.EAST);
-
-		panel.add(button[col][line][1][0], BorderLayout.WEST);
-		panel.add(button[col][line][1][1], BorderLayout.CENTER);
-		panel.add(button[col][line][1][2], BorderLayout.EAST);
-
-		southPanel.add(button[col][line][2][0], BorderLayout.WEST);
-		southPanel.add(button[col][line][2][1], BorderLayout.SOUTH);
-		southPanel.add(button[col][line][2][2], BorderLayout.EAST);
-
-
+		panel.add(button[col][line][2][0]);
+		panel.add(button[col][line][2][1]);
+		panel.add(button[col][line][2][2]);
 
 	}
 
@@ -337,14 +262,14 @@ public class Sudoku implements ActionListener{
 
 	    if(e.getSource().equals(EasyMenu) ) {
 	     
-	    	inReader = new InputReader(MODE_EASY);
+	    	inReader = new InputReader(InputReader.EASY);
 	    	initializeGame();
 
 	    }
 
 	    else if(e.getSource().equals(InterMediateMenu) ) {
 	     
-	     	inReader = new InputReader(MODE_INTERMEDIATE);
+	     	inReader = new InputReader(InputReader.INTERMEDIATE);
 	     	initializeGame();
 
 	    }
@@ -352,7 +277,7 @@ public class Sudoku implements ActionListener{
 
 	    else if(e.getSource().equals(ExpertMenu) ) {
 	     
-	     	inReader = new InputReader(MODE_EXPERT);
+	     	inReader = new InputReader(InputReader.EXPERT);
 	     	initializeGame();
 
 	    }
@@ -549,15 +474,7 @@ public class Sudoku implements ActionListener{
  		selectedButton[2] = -1;
  		selectedButton[3] = -1;
  		actionsDeque = new LinkedList<SudokuAction>();
-   	    
-	    terminalPrinter = new TerminalSudokuPrinter(button, defaultVal);
-	    terminalPrinter.printTable();
-	    terminalPrinter.toFile("initialTable.txt");
-
-/*	    findSolution();
-	    TerminalSudokuPrinter terminalPrinterSolution = new TerminalSudokuPrinter(solutionTable, defaultVal);
-	    terminalPrinterSolution.printTable();*/
-
+	    findSolution();
  	}
 
 
@@ -716,7 +633,10 @@ public class Sudoku implements ActionListener{
  	}
 
  	private void winGame(){
+
  		setDisabled();
+ 		WinGameFrame winGameFr = new WinGameFrame();
+ 		
  		System.out.println("YOU WON THE GAME!");
  	}
 
