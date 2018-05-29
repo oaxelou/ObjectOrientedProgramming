@@ -115,10 +115,6 @@ public class InputReader{
 
 	String [] getInput(){
 
-		for(int i=0; i < 9; i++){
-			System.out.println(sudokuInput[i]);
-		}
-
 		return sudokuInput;
 	}
 }

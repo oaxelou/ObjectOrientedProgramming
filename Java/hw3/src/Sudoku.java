@@ -1,10 +1,13 @@
 /*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
 *               Axelou Olympia            oaxelou@inf.uth.gr
 *
-*   Sudoku class:
+*	package ce325.hw3, Sudoku Project
+*   InputReader class:
 *
-*	Main class of Sudoku project. Includes main function and code of the main frame.
-*   
+*	Main class of project. Includes main function as main frame.
+*
+*	Implements ActionListener
+*
 */
 
 package ce325.hw3;
@@ -99,15 +102,18 @@ public class Sudoku implements ActionListener{
 		for(int i=0; i < 3; i++){
  			for(int j=0; j< 3; j++){
  				
+ 				//Make panels and put them in boxArea grid
  				panel[i][j] = new JPanel();
  				panel[i][j].setLayout( new GridLayout(3,3) );
  				panel[i][j].setBorder(lineBorder);
  				boxArea.add(panel[i][j]);
- 				createBoxes(panel[i][j], j, i);
 
  				for(int k=0; k<3; k++){
  					for(int m=0; m<3; m++){
 
+ 						//Make buttons and put them in panels grid
+ 						button[i][j][k][m] = new JButton(" ");
+ 						panel[i][j].add(button[i][j][k][m]);
  						button[i][j][k][m].setBackground(Color.WHITE);
 		 				button[i][j][k][m].addActionListener(this);
 
@@ -116,34 +122,6 @@ public class Sudoku implements ActionListener{
  			}
 	 		
 	 	}
-	}
-	
-	private void createBoxes(JPanel panel, int line, int col){
-
-		button[col][line][0][0] = new JButton(" "); 
-		button[col][line][0][1] = new JButton(" ");
-		button[col][line][0][2] = new JButton(" ");
-		 
-		button[col][line][1][0] = new JButton(" ");
-		button[col][line][1][1] = new JButton(" ");
-		button[col][line][1][2] = new JButton(" ");
-
-		button[col][line][2][0] = new JButton(" ");
-		button[col][line][2][1] = new JButton(" "); 
-		button[col][line][2][2] = new JButton(" ");
-
-		panel.add(button[col][line][0][0]);
-		panel.add(button[col][line][0][1]);
-		panel.add(button[col][line][0][2]);
-
-		panel.add(button[col][line][1][0]);
-		panel.add(button[col][line][1][1]);
-		panel.add(button[col][line][1][2]);
-
-		panel.add(button[col][line][2][0]);
-		panel.add(button[col][line][2][1]);
-		panel.add(button[col][line][2][2]);
-
 	}
 
 	private  void createChoisesArea(){
@@ -195,7 +173,7 @@ public class Sudoku implements ActionListener{
 		choisesArea.add(rubikButton);
 	}
 
-	public JMenuBar createMenu(){
+	private JMenuBar createMenu(){
 
 		bar = new JMenuBar();
 
@@ -219,7 +197,9 @@ public class Sudoku implements ActionListener{
 
   	}
 
-  	public void setEnabled(){
+  	//Calls for every object placed in frame setEnabled(true)
+  	//Objects must have been created!
+  	private void setEnabled(){
 
   		for(int i=0; i < 3; i++){
  			for(int j=0; j< 3; j++){
@@ -239,7 +219,9 @@ public class Sudoku implements ActionListener{
   		verifySolution.setEnabled(true);
   	}
 
-  	public void setDisabled(){
+  	//Calls for every object placed in frame setEnabled(false)
+  	//Objects must have been created!
+  	private void setDisabled(){
   		for(int i=0; i < 3; i++){
  			for(int j=0; j< 3; j++){
  				for(int k=0; k<3; k++){
@@ -261,24 +243,21 @@ public class Sudoku implements ActionListener{
   	public void actionPerformed(ActionEvent e) {
 
 	    if(e.getSource().equals(EasyMenu) ) {
-	     
-	    	inReader = new InputReader(InputReader.EASY);
-	    	initializeGame();
+
+	    	initializeGame(InputReader.EASY);
 
 	    }
 
 	    else if(e.getSource().equals(InterMediateMenu) ) {
 	     
-	     	inReader = new InputReader(InputReader.INTERMEDIATE);
-	     	initializeGame();
+	     	initializeGame(InputReader.INTERMEDIATE);
 
 	    }
 
 
 	    else if(e.getSource().equals(ExpertMenu) ) {
 	     
-	     	inReader = new InputReader(InputReader.EXPERT);
-	     	initializeGame();
+	     	initializeGame(InputReader.EXPERT);
 
 	    }
 		
@@ -369,6 +348,8 @@ public class Sudoku implements ActionListener{
    
  	}
 
+ 	//For each valued box, checks if the value equals to value of solution
+ 	//If the 2 values are not equal, background of box is blue 
  	private void verifySolutionChecker(){
 
 	    for(int i=0; i<3; i++){
@@ -390,6 +371,8 @@ public class Sudoku implements ActionListener{
 		}
  	}
 
+
+ 	//Sets new selected button
  	private void buttonPushed(int iPos, int jPos, int kPos, int mPos){
 
  		if(!defaultVal[iPos*3 + kPos][jPos*3 +mPos]){
@@ -403,6 +386,8 @@ public class Sudoku implements ActionListener{
 	 	}
  	}
 
+
+ 	//Gives new value to box, which user gives
  	private void numPushed(int num){
 
  		String valueStr, preValueStr;
@@ -432,11 +417,13 @@ public class Sudoku implements ActionListener{
 
  	}
 
+ 	//Checks if values at iPos, jPos, kPos, mPos is Legal according values excisting the same time
  	private boolean isLegal(int iPos, int jPos, int kPos, int mPos){
 
  		char value = button[iPos][jPos][kPos][mPos].getText().charAt(0);
  		if(value == ' ') return true;
 
+ 		//Checks at same panel
 		for(int k = 0; k <3; k++){
 			for(int m = 0; m < 3; m++){
 				if(value == button[iPos][jPos][k][m].getText().charAt(0) && !(k == kPos && m == mPos) ) 
@@ -444,13 +431,15 @@ public class Sudoku implements ActionListener{
 			}
 		}
 
+		//Checks at same line.
 		for(int i = 0; i <3; i++){
 			for(int k = 0; k < 3; k++){
 				if(value == button[i][jPos][k][mPos].getText().charAt(0) && !(i == iPos && k == kPos) )
 					return false;
 			}
-		}
+		}	
 
+		//Checks at same column.
 		for(int j = 0; j <3; j++){
 			for(int m = 0; m < 3; m++){
 				if(value == button[iPos][j][kPos][m].getText().charAt(0) && !(j == jPos && m == mPos))
@@ -462,10 +451,17 @@ public class Sudoku implements ActionListener{
 
 	}
 
- 	private void initializeGame(){
+	/*
+	Function called when 1 of three JMenuItem is called. 
+	int mode represents the mode of game user demands to play.
+	Value of mode can be one of below:
+		-> InputReader.EASY: 		 	game mode is easy.
+		-> InputReader.INTERMEDIATE: 	game mode is intermediate.
+		-> InputReader.EXPERT: 		 	game mode is for experts.
+	*/
+ 	private void initializeGame(int mode){
 
- 		setEnabled();
-
+ 		inReader = new InputReader(mode);
  		input = inReader.getInput();
 	    setDefault();
 	    drawButtons(BUT_INITIALIZE);
@@ -475,9 +471,12 @@ public class Sudoku implements ActionListener{
  		selectedButton[3] = -1;
  		actionsDeque = new LinkedList<SudokuAction>();
 	    findSolution();
+	    setEnabled();
  	}
 
-
+ 	//Function called while game is initialized.
+ 	//Checks input and sets default values, which should NOT
+ 	//be modified during game.
  	private void setDefault(){
 
  		defaultVal = new boolean[9][9];
@@ -495,6 +494,24 @@ public class Sudoku implements ActionListener{
  		}
  	}
 
+ 	/*
+	Function called when we want to redraw the boxArea. 
+	Argument int state represents the state we are and
+	in which way boxArea should be drawn.
+	Value of state can be one of below:
+		-> BUT_INITIALIZE: 		 	Game just started. Sets text also.
+
+		-> BUT_SHOWSOL: 			User gives up. Shows the values of solutionTable.
+									Disables frame objects. 
+
+		-> BUT_PUSHED: 			 	Selected button just changed. Makes yellow selected
+									box and if it has value, makes yellow each box with
+									same value. 
+
+		-> BUT_NUMPUSHED: 		 	New value is given at box. If value is legal, makes 
+									yellow each box with same value. If value is illegal
+									makes selected box red.
+	*/
  	private void drawButtons(int state){
 
  		if(state == BUT_INITIALIZE){
@@ -540,13 +557,15 @@ public class Sudoku implements ActionListener{
 	 	}
 		else if(state == BUT_PUSHED){
 	 		if(button[selectedButton[0]][selectedButton[1]][selectedButton[2]][selectedButton[3]].getText() != " "){
+
 		 		for(int i=0; i < 3; i++){
 		 			for(int j=0; j< 3; j++){
 		 				for(int k=0; k<3; k++){
 		 					for(int m=0; m<3; m++){
 
-	 							if(button[i][j][k][m].getText() == button[selectedButton[0]][selectedButton[1]][selectedButton[2]][selectedButton[3]].getText())
+	 							if(button[i][j][k][m].getText().charAt(0) == button[selectedButton[0]][selectedButton[1]][selectedButton[2]][selectedButton[3]].getText().charAt(0)){
 	 								button[i][j][k][m].setBackground(new Color(255, 255, 200) );
+	 							}
 	 							else if( defaultVal[i*3+k][j*3+m])
 	 								button[i][j][k][m].setBackground(Color.LIGHT_GRAY);
 	 							else
@@ -556,8 +575,10 @@ public class Sudoku implements ActionListener{
 						}
  					}
 	 			}
+
 	 		}
 	 		else{
+
 	 			for(int i=0; i < 3; i++){
 		 			for(int j=0; j< 3; j++){
 		 				for(int k=0; k<3; k++){
@@ -603,6 +624,7 @@ public class Sudoku implements ActionListener{
 						}
  					}
 	 			}
+	 			//After adding new LEGAL value, if none empty boxes are remained, game just finished ;) 
 	 			if(counter == 81) 
 	 				winGame();
 			}
@@ -627,11 +649,13 @@ public class Sudoku implements ActionListener{
 	 	}
  	}
 
+ 	//Returns solution to solutionTable
  	private void findSolution(){
  		SudokuSolutionFinder finder = new SudokuSolutionFinder(button, defaultVal);
  		solutionTable = finder.getSolution();
  	}
 
+ 	//Called when game just finished and makes winGame frame
  	private void winGame(){
 
  		setDisabled();
