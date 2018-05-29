@@ -1,22 +1,41 @@
+
+/*  Authors:    Patsianotakis Charalampos cpatsianotakis@inf.uth.gr
+*               Axelou Olympia            oaxelou@inf.uth.gr
+*
+*   C++ hw4 : HashTable, Iterator, Extensible HashTable
+*
+* ExtHashTable class  (subclass of HashTable class)
+*/
 #include <iostream>
 #include <cstdlib>
 #include <string.h>
 
 #include "ExtHashTable.h"
 
+/*
+ * the basic constuctor
+ */
 ExtHashTable::ExtHashTable( double upper_bound_ratio,
                             double lower_bound_ratio,
                             int size) : HashTable(size){
   this->upper_bound_ratio = upper_bound_ratio;
   this->lower_bound_ratio = lower_bound_ratio;
-  // cout << "In constuctor!\n";
 }
 
+/*
+ * the copy constuctor
+ */
 ExtHashTable::ExtHashTable(const ExtHashTable &t) : HashTable(t) {
   upper_bound_ratio = t.upper_bound_ratio;
   lower_bound_ratio = t.lower_bound_ratio;
 }
 
+/*
+ * This function was not originaly here.
+ * Purpose: adds s in the table in the process of rehasing
+ *          So, it doesn't check the portion size/capacity
+ *          (doesn't rehash() ) as opposed to add function
+ */
 bool ExtHashTable::add_norehash(const char *s) {
   int hashCode = getHashCode(s);
   int pos, n;
@@ -26,21 +45,23 @@ bool ExtHashTable::add_norehash(const char *s) {
     pos = (hashCode + n) % capacity;
     if(isAvailable(pos)){
       table[pos] = s;
-      // cout << "Added (no_rehash)" << s << ". size = " << size << endl;
       return true;
     }
   }
-  // doesn't reach this point
+  // rever reaches this point
   return false;
 }
 
+/*
+ * the rehash function
+ * -> if size == 0 there is no rehashing
+ */
 void ExtHashTable::rehash() {
   if(size == 0){
     return;
   }
   int action = 0; //0:no change, 1:double, 2: half
   if(((double)size) / capacity > upper_bound_ratio){
-    // cout << "ratio: " << ((double)size) / capacity << endl;
     action = 1;
   } else if(((double)size) / capacity < lower_bound_ratio){
     action = 2;
@@ -60,7 +81,6 @@ void ExtHashTable::rehash() {
 
     for(int i = 0; i < temp.capacity; i++){
       if(!temp.isAvailable(i)){
-        // cout << "\t\t\t\tCopied " << temp.table[i] << ". size = " << size << endl;
         add_norehash(temp.table[i].c_str());
       }
     }
@@ -70,6 +90,9 @@ void ExtHashTable::rehash() {
   }
 }
 
+/*
+ * adds str in table: only difference with HashTable::add is the rehash()
+ */
 bool ExtHashTable::add(const string &str) {
   return ExtHashTable::add(str.c_str());
 }
@@ -78,13 +101,11 @@ bool ExtHashTable::add(const char *s) {
   int hashCode = getHashCode(s);
   int pos, n;
   if(contains(s)) return false;
-  // cout << "In add\n";
   for(n = 0; n < capacity; n++){
     pos = (hashCode + n) % capacity;
     if(isAvailable(pos)){
       table[pos] = s;
       size++;
-      // cout << "Added " << s << ". size = " << size << endl;
       rehash();
       return true;
     }
@@ -93,6 +114,9 @@ bool ExtHashTable::add(const char *s) {
   return false;
 }
 
+/*
+ * removes str from table: only difference with HashTable::remove is the rehash()
+ */
 bool ExtHashTable::remove(const string &str) {
   return ExtHashTable::remove(str.c_str());
 }
@@ -162,6 +186,11 @@ bool ExtHashTable::operator -= (const char *s) {
   return ExtHashTable::remove(s);
 }
 
+/*
+ * creates new table (combination of this and table)
+ * capacity of ht table changes according to the rehash() function
+ * and not with the initialization (constuctor)
+ */
 ExtHashTable ExtHashTable::operator+(const ExtHashTable &table) const {
   ExtHashTable ht(*this);
 
@@ -173,16 +202,21 @@ ExtHashTable ExtHashTable::operator+(const ExtHashTable &table) const {
   return ht;
 }
 
+/*
+ * adds elements of table in the current table
+ */
 ExtHashTable & ExtHashTable::operator+=(const ExtHashTable &table) {
   for(int i = 0; i < table.capacity; i++){
     if(!table.isAvailable(i)){
-      // cout << "going to add " << table.table[i] << endl;
       ExtHashTable::add(table.table[i].c_str());
     }
   }
   return *this;
 }
 
+/*
+ * assigns t to the current object
+ */
 ExtHashTable & ExtHashTable::operator=(const ExtHashTable &t) {
   size = t.size;
   capacity = t.capacity;
