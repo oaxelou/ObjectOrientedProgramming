@@ -43,6 +43,7 @@ int main(int argc, char *argv[]) {
     str.append(buf);
     cout << str;
     
+    str.clear();
     cout << " ###### HASH TABLE ######" << endl;
     for(HashTable::Iterator it = table.begin(); it!=table.end(); ++it) {
       sprintf(buf, "%2d. -%s-\n", j++, (*it).c_str());

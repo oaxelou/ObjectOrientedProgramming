@@ -42,9 +42,11 @@ out:
 	./t6 16 in1_db.txt > t6_1.out
 	./t7 16 in1_db.txt > t7_1.out
 	./t8 16 in1_db.txt > t8_1.out
+	./t8 10 in1_db.txt > t8_2.out
 	./t9 16 in1_db.txt > t9_1.out
-	./t10 16 in1_un.txt in2.txt > t10_1.out
-	./t11 16 in1_un.txt in2.txt > t11_1.out
+	./t10 20 in1_un.txt in2.txt > t10_1.out
+	./t11 20 in1_un.txt in2.txt > t11_1.out
+	./t11 40 in1_un.txt in2.txt > t11_2.out
 	./t12 16 in1_un.txt > t12_1.out
 	
 diff:
@@ -59,6 +61,7 @@ diff:
 	diff t6_1.out t6_1.std
 	diff t7_1.out t7_1.std
 	diff t8_1.out t8_1.std
+	diff t8_2.out t8_2.std
 	diff t9_1.out t9_1.std
 	diff t10_1.out t10_1.std
 	diff t11_1.out t11_1.std

@@ -1,20 +1,78 @@
  ###### HASH TABLE 1 ######
  0. -she-
- 1. -a-
- 2. -when-
+ 1. -on-
+ 2. -assigned-
  3. -to-
- 4. -group-
- 5. -learning-
- 6. -bees-
- 7. -carefully-
- 8. -campus-
- 9. -study-
-10. -was-
-11. -about-
-12. -arrived-
-13. -on-
-14. -assigned-
- --- CAPACITY: 16, SIZE: 15 ---
+ 4. -carefully-
+ 5. -arrived-
+ 6. -campus-
+ 7. -was-
+ 8. -study-
+ 9. -learning-
+10. -when-
+11. -bees-
+12. -a-
+13. -group-
+14. -about-
+ --- CAPACITY: 20, SIZE: 15 ---
 
-THROW Exception!
-HashTableException occured!
+ ###### HASH TABLE 2 ######
+ 0. -have-
+ 1. -passage-
+ 2. -employees-
+ 3. -practice-
+ 4. -the-
+ 5. -original-
+ 6. -can-
+ 7. -outcome-
+ 8. -transofrm-
+ 9. -study-
+10. -students-
+11. -working-
+12. -groups-
+13. -of-
+14. -at-
+15. -programs-
+16. -rite-
+17. -in-
+18. -teams-
+19. -become-
+ --- CAPACITY: 20, SIZE: 20 ---
+
+ ###### HASH TABLE 3 ######
+ 0. -she-
+ 1. -the-
+ 2. -practice-
+ 3. -outcome-
+ 4. -assigned-
+ 5. -carefully-
+ 6. -learning-
+ 7. -campus-
+ 8. -study-
+ 9. -was-
+10. -students-
+11. -original-
+12. -working-
+13. -bees-
+14. -of-
+15. -a-
+16. -at-
+17. -about-
+18. -have-
+19. -on-
+20. -passage-
+21. -employees-
+22. -in-
+23. -teams-
+24. -can-
+25. -to-
+26. -transofrm-
+27. -arrived-
+28. -become-
+29. -groups-
+30. -when-
+31. -programs-
+32. -rite-
+33. -group-
+ --- CAPACITY: 40, SIZE: 34 ---
+
