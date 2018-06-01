@@ -267,23 +267,57 @@ HashTable HashTable::operator - (const char *s) const {
 HashTable HashTable::operator+(const HashTable &t) const {
 	HashTable newHashTable(capacity + t.getCapacity());
 
-	for(int i = 0; i < capacity; i++){
-    if(!t.isAvailable(i))
-			newHashTable.add(table[i]);
+  for(int i = 0; i < capacity; i++){
+    if(!isAvailable(i)){
+      newHashTable.add(table[i]);
+    }
 	}
 
 	for(int i = 0; i < t.getCapacity(); i++){
-    if(!t.isAvailable(i))
-			newHashTable.add(t.table[i]);
+    if(!t.isAvailable(i)){
+      newHashTable.add(t.table[i]);
+    }
 	}
 
 	return newHashTable;
 }
 
 /*
+ * Auxiliary function: adds a word in the table without changing the size
+ */
+ bool HashTable::add_nosize_changing(const char *s) {
+   int hashCode = getHashCode(s);
+   int pos, n;
+   if(contains(s)) return false;
+
+   for(n = 0; n < capacity; n++){
+     pos = (hashCode + n) % capacity;
+     if(isAvailable(pos)){
+       table[pos] = s;
+       return true;
+     }
+   }
+   // rever reaches this point
+   return false;
+ }
+
+/*
  * adds the contents of t to the current hash table (capacity doesn't change)
  */
 HashTable& HashTable::operator+=(const HashTable &t) {
+  HashTable temp(*this);
+  capacity += t.getCapacity();
+
+  table = new (nothrow) string [capacity];
+  if(table == NULL)
+		throw std::bad_alloc();
+
+  for(int i = 0; i < temp.capacity; i++){
+    if(!temp.isAvailable(i)){
+      add_nosize_changing(temp.table[i].c_str());
+    }
+  }
+  delete[] temp.table;
 
 	for( int i = 0; i < t.getCapacity(); i++){
 		if(!t.isEmpty(i) && !t.isTomb(i) )

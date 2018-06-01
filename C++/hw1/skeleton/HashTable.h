@@ -28,6 +28,8 @@ public:
   bool contains(const char *s) const;
   string print() const;
 
+  bool add_nosize_changing(const char *s);
+  
   virtual bool add(const string &s);
   virtual bool add(const char *s);
   virtual bool remove(const string &s);

@@ -72,10 +72,14 @@ void ExtHashTable::rehash() {
 
     if(action == 1){
       table = new string[2 * capacity];
+      if(table == NULL)
+    		throw std::bad_alloc();
       capacity *= 2;
     }
     else if(action == 2){
       table = new string[(int)(0.5 * capacity)];
+      if(table == NULL)
+    		throw std::bad_alloc();
       capacity = (int)(0.5 * capacity);
     }
 
@@ -225,6 +229,9 @@ ExtHashTable & ExtHashTable::operator=(const ExtHashTable &t) {
 
   delete[]table;
   table = new string[capacity];
+  if(table == NULL)
+		throw std::bad_alloc();
+
   for(int i = 0; i < capacity; i++){
     table[i] = t.table[i];
   }
